@@ -2,54 +2,45 @@ use Test;
 use strict;
 $^W = 1;
 use IP::Country::Fast;
-use Socket qw ( inet_ntoa inet_aton );
-BEGIN { plan tests => 1 }
-
-my @test_ipa; # ip address at start of range
-my @test_country; # country codes for test ranges
-
-# and these are our raw files that will combine to form the database
-my $reg_dir = 'rir_data';
-my @reg_files;
-opendir(RIR,$reg_dir) or die("can't open $reg_dir: $!");
-while (defined (my $path = readdir RIR)){
-    next if $path =~ /^\.\.?$/;
-    push @reg_files, $path;
-}
-closedir(RIR);
-
-foreach my $reg (@reg_files){
-    open (REG, "< $reg_dir/$reg") || die("can't open $reg_dir/$reg: $!");
-    while (my $line = <REG>){
-    	chomp $line;
-	next unless $line =~ /^([^\|]+)\|(..)\|ipv4\|([^\|]+)\|(\d+)\|/;
-	my ($auth,$cc,$ip,$size) = ($1,$2,$3,$4);
-	next if ($auth eq 'iana'); # ipv6 and private IP ranges
-	$cc = 'UK' if ($cc eq 'GB');
-        push @test_ipa, inet_ntoa(pack("N",unpack("N",inet_aton($ip)) + int(rand $size)));
-        push @test_country, $cc;
-    }
-    close REG || warn("can't close $reg_dir/$reg, but continuing: $!");
-}
+BEGIN { plan tests => 29 }
 
 my $cc = IP::Country::Fast->new();
 
-my $fail = 0;
-my $found = 0;
-my $t1 = time();
-for (my $i = 0; $i<=$#test_ipa; $i++){
-    my $cnta = $cc->inet_atocc($test_ipa[$i]);
-    if ($cnta eq $test_country[$i]){
-        $found++;
-    } else {
-        warn ($test_ipa[$i].'-'.$cnta.'-'.$test_country[$i]);
-        $fail = 1;
+while (<DATA>) {
+    chomp;
+    my ($ipaddr, $exp_country) = split("\t");
+    if ($exp_country){
+        ok($cc->inet_atocc($ipaddr), $exp_country);
     }
 }
-my $delta = (time() - $t1) || 1; # avoid zero division
-if ($fail){
-  ok(0);
-} else {
-  ok(1);
-}
-print STDERR (" # sequential find (100%, ".int($found/$delta)." lookups/sec)\n");
+
+__DATA__
+203.174.65.12	JP
+212.208.74.140	FR
+200.219.192.106	BR
+134.102.101.18	DE
+193.75.148.28	BE
+134.102.101.18	DE
+147.251.48.1	CZ
+194.244.83.2	IT
+203.15.106.23	AU
+196.31.1.1	ZA
+210.54.22.1	NZ
+210.25.5.5	CN
+210.54.122.1	NZ
+210.25.15.5	CN
+192.37.51.100	CH
+192.37.150.150	CH
+192.106.51.100	IT
+192.106.150.150	IT
+203.174.65.12	JP
+212.208.74.140	FR
+200.219.192.106	BR
+134.102.101.18	DE
+193.75.148.28	BE
+134.102.101.18	DE
+147.251.48.1	CZ
+194.244.83.2	IT
+203.15.106.23	AU
+196.31.1.1	ZA
+209.243.9.154	US

@@ -58,8 +58,9 @@ closedir(RIR);
 optimize()
     or die("couldn't optimize");
 
+open(OUTFILE,"> sorted_ranges.txt") or die ($!);
 output();
-
+close OUTFILE;
 $dbh->disconnect();
 
 sub output
@@ -85,7 +86,7 @@ sub formatRange
 	if ($max_mask < $mask){
 	    $mask = $max_mask;
 	}
-	print inet_ntoa($ip).'|'. 2 ** $mask .'|'. $cc ."\n";
+	print OUTFILE inet_ntoa($ip).'|'. 2 ** $mask .'|'. $cc ."\n";
 	$size = $size - (2 ** $mask);
 	return unless ($size > 0);
 	$ip = pack('N',(unpack('N',$ip) + 2 ** $mask)); 

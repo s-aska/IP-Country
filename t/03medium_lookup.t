@@ -2,7 +2,7 @@ use Test;
 use strict;
 $^W = 1;
 use IP::Country::Medium;
-BEGIN { plan tests => 28 }
+BEGIN { plan tests => 29 }
 
 my $cc = IP::Country::Medium->new();
 
@@ -43,3 +43,4 @@ __DATA__
 194.244.83.2	IT
 203.15.106.23	AU
 196.31.1.1	ZA
+209.243.9.154	US

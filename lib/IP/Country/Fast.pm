@@ -4,7 +4,7 @@ $^W = 1;
 use Socket qw ( inet_aton );
 
 use vars qw ( $VERSION );
-$VERSION = '212.007'; # DEC 2002, version 0.06
+$VERSION = '212.008'; # DEC 2002, version 0.08
 
 my $singleton = undef;
 my $ip_db;
@@ -13,13 +13,16 @@ my %cc;
 my $tld_match = qr/\.([a-zA-Z][a-zA-Z])$/o;
 my $ip_match = qr/^(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])$/o;
 
-my $bit0 = substr(pack('N',2 ** 31),0,1);
-my $bit1 = substr(pack('N',2 ** 30),0,1);
+my $bit0;
+my $bit1;
 my @mask;
 my @dtoc;
 {
-    for (my $i = 0; $i <= 32; $i++){
-	$mask[$i] = pack('N',2 ** (32 - $i));
+    $bit0 = substr(pack('N',2 ** 31),0,1);
+    $bit1 = substr(pack('N',2 ** 30),0,1);
+
+    for (my $i = 0; $i <= 31; $i++){
+	$mask[$i] = pack('N',2 ** (31 - $i));
     }
 
     for (my $i = 0; $i <= 255; $i++){
@@ -28,12 +31,6 @@ my @dtoc;
     (my $module_dir = $INC{'IP/Country/Fast.pm'}) =~ s/\.pm$//;
 
     local $/;   # set it so <> reads all the file at once
-
-    open (IP, "< $module_dir/ip.gif")
-	or die ("couldn't read IP database: $!");
-    binmode IP;
-    $ip_db = <IP>;
-    close IP;
 
     open (CC, "< $module_dir/cc.gif")
 	or die ("couldn't read country database: $!");
@@ -46,6 +43,12 @@ my @dtoc;
 	$cc = undef if ($cc eq '--');
 	$cc{substr($cc_ultra,3 * $i,1)} = $cc;
     }
+
+    open (IP, "< $module_dir/ip.gif")
+	or die ("couldn't read IP database: $!");
+    binmode IP;
+    $ip_db = <IP>;
+    close IP;
 }
 
 sub new ()
@@ -72,32 +75,51 @@ sub inet_atocc ($)
 
 sub inet_ntocc ($)
 {
+    # FORMATTING OF EACH NODE IN $ip_db
+    # bit0 - true if this is a country code, false if this
+    #        is a jump to the next node
+    #
+    # country codes:
+    #   bit1 - true if the country code is stored in bits 2-7
+    #          of this byte, false if the country code is
+    #          stored in bits 0-7 of the next byte
+    #   bits 2-7 or bits 0-7 of next byte contain country code
+    #
+    # jumps:
+    #   bytes 0-3 jump distance
+
     my $inet_n = $_[1] || $_[0];
 
     my $pos = 0;
-#    print STDERR unpack('B32',$inet_n)."\n";
-#    print STDERR "position: $pos\n";
-    for (my $i = 1; $i <= 32; $i++){
+    # loop through bits of IP address
+    for (my $i = 0; $i <= 31; $i++){
+	if (($inet_n & $mask[$i]) eq $mask[$i]){
+	    # bit[$i] is set [binary one]
+	    # - jump to next node
+	    $pos = $pos + 3 + unpack('N', $null . substr($ip_db,$pos,3));
+	} else {
+	    # bit[$i] is unset [binary zero]
+	    # jump to end of this node
+	    $pos = $pos + 3;
+	}
+	
+	# all terminal nodes of the tree start with zeroth bit 
+	# set to zero. the first bit can then be used to indicate
+	# whether we're using the first or second byte to store the
+	# country code
 	my $byte_zero = substr($ip_db,$pos,1);
 	if (($byte_zero & $bit0) eq $bit0){ # country code
-	    if (($byte_zero & $bit1) eq $bit1){ # unpopular country code - skip a byte
+	    if (($byte_zero & $bit1) eq $bit1){
+		# unpopular country code - stored in second byte
 		return $cc{substr($ip_db,$pos+1,1)};
-	    } else { # popular country code
-		return $cc{$byte_zero ^ $bit0};
-	    }
-	} else {
-	    if (($inet_n & $mask[$i]) eq $mask[$i]){
-		my $jump = unpack('N',$null.substr($ip_db,$pos,3));
-		$pos = $pos + 3 + $jump;
-#		print STDERR "ONE: jumping: $jump\n";
 	    } else {
-		$pos = $pos + 3;
-#		print STDERR "ZERO\n";
+		# popular country code - stored in bits 2-7
+		# (we already know that bit 1 is not set, so
+		# just need to unset bit 1)
+		return $cc{$byte_zero ^ $bit0};
 	    }
 	}
     }
-#    print STDERR "\n";
-    return undef;
 }
 
 1;
