@@ -4,6 +4,7 @@ MANIFEST
 Makefile.PL
 README
 bin/ip2cc.PL
+dbmScripts/getFiles.pl
 dbmScripts/ipauth_loader.pl
 dbmScripts/ipauth_maker.pl
 dbmScripts/ipcc_loader.pl
@@ -23,3 +24,4 @@ t/03medium_lookup.t
 t/04auth_lookup.t
 t/05fast_bench.t
 t/codes.t
+META.yml                                Module meta-data (added by MakeMaker)

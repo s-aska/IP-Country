@@ -1,6 +1,23 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-2.16, 2003.09.12
+---------------------------
+IMPORTANT CHANGE!!!
+UK now stored as GB to follow standard.
+
+Less important changes:
+I've changed my name.
+Database update:
+  apnic-2003-09-12
+  arin.20030912
+  lacnic.20030912
+  ripe.db.inetnum
+  ripencc.20030911
+Note that aup_dump.txt has disappeared.
+
+
+
 IP-Country-2.15, 2003.08.04
 ---------------------------
 Database update:

@@ -69,8 +69,6 @@ sub getCountry
 	$country = 'France, Metropolitan';
     } elsif ($cc eq 'PS'){
 	$country = 'Palestinian Territory, Occupied';
-    } elsif ($cc eq 'UK'){
-	$country = country('GB');
     } else {
 	$country = country($cc);
     }
@@ -90,7 +88,7 @@ sub getRevDate
 {
     my $reg = IP::Country->new();
     my $tm = gmtime($reg->db_time());
-    print "\n  IP::Country modules (v$VERSION)\n  Copyright (c) 2002,2003 Nigel Wetters\n";
+    print "\n  IP::Country modules (v$VERSION)\n  Copyright (c) 2002,2003 Nigel Wetters Gourlay\n";
     print "  Database updated $tm\n\n";
 }
 
@@ -124,7 +122,7 @@ IP::Country - the fast database used by this script.
 
 =head1 AUTHOR
 
-Nigel Wetters <nwetters@cpan.org>
+Nigel Wetters Gourlay <nwetters@cpan.org>
 
 !NO!SUBS!
 

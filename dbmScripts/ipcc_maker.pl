@@ -21,7 +21,8 @@ while (my $line = <REG>){
     chomp $line;
     next unless $line =~ /^([^\|]+)\|([^\|]+)\|(..)$/;
     my ($ip,$size,$cc) = ($1,$2,$3);
-    $cc = 'UK' if ($cc eq 'GB');
+    $cc = 'CZ' if ($cc eq 'CS');
+    $cc = 'GB' if ($cc eq 'UK');
     my $packed_ip = inet_aton($ip);
     my $packed_range = substr(pack('N',$log2{$size}),3,1);
     $tree->add($packed_ip,$packed_range,$cc);
@@ -132,7 +133,7 @@ sub get_countries ()
 {
     my ($self) = @_;
     unless (exists $self->{sorted_cc}){
-	$self->get_cc_as_num('UK');
+	$self->get_cc_as_num('GB');
     }
     return sort keys %{$self->{sorted_cc}};
 }

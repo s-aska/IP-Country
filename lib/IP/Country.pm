@@ -1,7 +1,7 @@
 package IP::Country;
 use IP::Country::Fast;
 @IP::Country::ISA = qw ( IP::Country::Fast );
-$IP::Country::VERSION = 2.15;
+$IP::Country::VERSION = 2.16;
 1;
 __END__
 
@@ -116,7 +116,6 @@ IP::Country will deviate from those used by L<Geography::Countries>:
   EU - non-specific European Union location
   FX - France, Metropolitan
   PS - Palestinian Territory, Occupied
-  UK - United Kingdom (standard says GB)
   ** - intranet address
   undef - not in database
 
@@ -150,7 +149,7 @@ L<http://www.lacnic.net> - Latin America
 
 =head1 COPYRIGHT
 
-Copyright (C) 2002,2003 Nigel Wetters. All Rights Reserved.
+Copyright (C) 2002,2003 Nigel Wetters Gourlay. All Rights Reserved.
 
 NO WARRANTY. This module is free software; you can redistribute 
 it and/or modify it under the same terms as Perl itself.

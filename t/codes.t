@@ -5,7 +5,7 @@ use Geography::Countries;
 $^W = 1;
 use IP::Country::Fast;
 
-BEGIN { plan tests => 223 }
+BEGIN { plan tests => 205 }
 
 (my $module_dir = $INC{'IP/Country/Fast.pm'}) =~ s/\.pm$//;
 
@@ -22,11 +22,9 @@ for (my $i = 0; $i < $cc_num; $i++){
     next if (($cc eq '--') || 
 	     ($cc eq '**') || 
 	     ($cc eq 'AP') ||
-	     ($cc eq 'CS') ||
 	     ($cc eq 'EU') ||
 	     ($cc eq 'FX') ||
-	     ($cc eq 'PS') ||
-	     ($cc eq 'UK'));
+	     ($cc eq 'PS'));
     if (defined (scalar country $cc)){
 	ok(1);
     } else {

@@ -9,7 +9,7 @@ use strict;
 
 my $PACKAGE = 'IP::Country';
 (my $PACKAGE_FILE = $PACKAGE) =~ s|::|/|g;
-my $LAST_API_CHANGE = 1.67;
+my $LAST_API_CHANGE = 2.16;
 my $CURR_VERSION;
 eval "require $PACKAGE;\n\$CURR_VERSION = \$$PACKAGE"."::VERSION;";
 
@@ -21,12 +21,11 @@ unless ($@) { # Make sure we did find the module.
 	    "      of this software installed with a version number of $CURR_VERSION.\n".
 	    "      Please read the CHANGES file if you have been building software\n".
 	    "      that relies on a previous version of this software.\n".
+	    "\n      ALL 'UK' CODES HAVE BEEN CHANGED TO THE STANDARD 'GB'\n".
 	    "-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-\n";
         sleep 5;
     }
 }
-
-# require 'sorted_ranges2dbm.pl';
 
 WriteMakefile(
 	      NAME          => $PACKAGE,
@@ -34,7 +33,7 @@ WriteMakefile(
 	      PREREQ_PM     => {
 		  'Geography::Countries' => '1.3'
 		  },
-	      AUTHOR        => 'Nigel Wetters <nwetters@cpan.org>',
+	      AUTHOR        => 'Nigel Wetters Gourlay <nwetters@cpan.org>',
 	      ABSTRACT_FROM => "lib/$PACKAGE_FILE.pm",
 	      PL_FILES      => { 'bin/ip2cc.PL' => 'bin/ip2cc' },
 	      EXE_FILES     => ['bin/ip2cc']

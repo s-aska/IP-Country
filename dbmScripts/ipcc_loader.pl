@@ -67,7 +67,6 @@ insert_raw(unpack('N',inet_aton('224.0.0.0')),2**28,'--',2**28);
 insert_raw(unpack('N',inet_aton('240.0.0.0')),2**28,'--',2**28);
 
 read_ripe(); # prefer RIPE to ARIN
-read_arin();
 read_reg();
 join_neighbours();
 punch_holes();
@@ -333,7 +332,7 @@ sub read_ripe
 	    if (defined $start){
 		next unless $line =~ $ripe_cc_line;
 		$cc = uc $1;
-		$cc = 'UK' if ($cc eq 'GB');
+		$cc = 'GB' if ($cc eq 'UK');
 		insert_raw($start,$end-$start+1,$cc,$end-$start+1);
 		$start = undef;
 		$end = undef;
@@ -353,39 +352,20 @@ sub read_ripe
     close REG || warn("can't close $reg_dir/ripe.db.inetnum, but continuing: $!");
 }
 
-sub read_arin
-{
-
-    print STDERR "loading data from aup_dump.txt\n";
-    my $arin_line = qr/^V4\|[^\|]+\|[^\|]+\|[^\|]+\|([^\|]+)\|([^\|]+)\|[^\|]+\|[^\|]+\|[^\|]+\|([^\|]+)\|/o;
-    open (REG,"< $reg_dir/aup_dump.txt") or die("can't open $reg_dir/aup_dump.txt: $!");
-    binmode REG, ':crlf';
-    while (my $line = <REG>){
-	chomp $line;
-	next unless $line =~ $arin_line;
-	my ($ip,$ip_end,$cc) = ($1, $2, uc $3);
-	$cc = 'UK' if ($cc eq 'GB');
-
-	next unless ($ip =~ $ip_match);
-	my $start = ($1 * 16777216) + ($2 * 65536) + ($3 * 256) + $4;
-
-	next unless ($ip_end =~ $ip_match);
-	my $end = ($1 * 16777216) + ($2 * 65536) + ($3 * 256) + $4;
-
-	my $size = $end-$start+1;
-	insert_raw($start,$size,$cc,$size);
-    }
-    close REG || warn("can't close $reg_dir/aup_dump.txt, but continuing: $!");
-}
-
 sub read_reg
 {
     my $stat_line = qr/^([^\|]+)\|(..)\|ipv4\|([^\|]+)\|(\d+)\|/o;
     opendir(RIR,$reg_dir) or die("can't open $reg_dir: $!");
+    my @reg;
     while (defined (my $path = readdir RIR)){
-	next if $path =~ /^\.\.?$/;
-	next if $path eq 'ripe.db.inetnum'; # RIPE data has different format
-	next if $path eq 'aup_dump.txt';    # ARIN data has different format
+	$reg[0] = $path if ($path =~ /^ripencc/);
+	$reg[1] = $path if ($path =~ /^lacnic/);
+	$reg[2] = $path if ($path =~ /^apnic/);
+	$reg[3] = $path if ($path =~ /^arin/);
+    }
+    closedir(RIR);
+
+    foreach my $path(@reg){
 	open (REG, "< $reg_dir/$path") || die("can't open $reg_dir/$path: $!");
 	binmode REG, ':crlf';
 	print STDERR "loading data from $path\n";
@@ -395,14 +375,9 @@ sub read_reg
 	    my ($auth,$cc,$ip,$size) = ($1,uc $2,$3,$4);
 	    next unless ($ip =~ $ip_match);
 	    my $start = ($1 * 16777216) + ($2 * 65536) + ($3 * 256) + $4;
-	    $cc = 'UK' if ($cc eq 'GB');
+	    $cc = 'GB' if ($cc eq 'UK');
 	    insert_raw($start,$size,$cc,$size);
-
-
-
-
 	}
 	close REG || warn("can't close $reg_dir/$path, but continuing: $!");
     }
-    closedir(RIR);
 }
