@@ -1,6 +1,13 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-2.13, 2003.04.08
+---------------------------
+Slight documentation changes.
+
+Added a CLI to IP::Country, named ip2cc (thanks, Lin Yung-Chung <XERN>).
+
+
 IP-Country-2.12, 2003.04.07
 ---------------------------
 Slight documentation change.

@@ -29,12 +29,14 @@ unless ($@) { # Make sure we did find the module.
 # require 'sorted_ranges2dbm.pl';
 
 WriteMakefile(
-	      NAME            => $PACKAGE,
-	      VERSION_FROM    => "lib/$PACKAGE_FILE.pm", # finds $VERSION
-	      PREREQ_PM       => {
-		'Geography::Countries' => '1.3'
+	      NAME          => $PACKAGE,
+	      VERSION_FROM  => "lib/$PACKAGE_FILE.pm", # finds $VERSION
+	      PREREQ_PM     => {
+		  'Geography::Countries' => '1.3'
 		  },
-	      AUTHOR          => 'Nigel Wetters <nwetters@cpan.org>',
-	      ABSTRACT_FROM   => "lib/$PACKAGE_FILE.pm"
+	      AUTHOR        => 'Nigel Wetters <nwetters@cpan.org>',
+	      ABSTRACT_FROM => "lib/$PACKAGE_FILE.pm",
+	      PL_FILES      => { 'bin/ip2cc.PL' => 'bin/ip2cc' },
+	      EXE_FILES     => ['bin/ip2cc']
 	      );
 

@@ -1,7 +1,7 @@
 package IP::Country;
 use IP::Country::Fast;
 @IP::Country::ISA = qw ( IP::Country::Fast );
-$IP::Country::VERSION = 2.12;
+$IP::Country::VERSION = 2.13;
 1;
 __END__
 
@@ -105,9 +105,8 @@ to use IP::Country::Slow, let me know.
 
 =head1 COUNTRY CODES
 
-Bundled with this distribution is Abigail's L<Geography::Countries> module. This is
-because you'll probably want some kind of country code -E<gt> country name conversion
-utility, and you shouldn't try to reinvent the wheel.
+You'll probably want some kind of country code -E<gt> country name conversion
+utility: you should use L<Geography::Countries> from CPAN.
 
 However, you should note the circumstances where the country code returned by
 IP::Country will deviate from those used by L<Geography::Countries>:

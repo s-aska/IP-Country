@@ -1,9 +1,9 @@
 # *-*-perl-*-*
 use Test;
 use strict;
+use Geography::Countries;
 $^W = 1;
 use IP::Country::Fast;
-use Geography::Countries;
 
 BEGIN { plan tests => 222 }
 
