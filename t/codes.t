@@ -5,7 +5,7 @@ use Geography::Countries;
 $^W = 1;
 use IP::Country::Fast;
 
-BEGIN { plan tests => 222 }
+BEGIN { plan tests => 223 }
 
 (my $module_dir = $INC{'IP/Country/Fast.pm'}) =~ s/\.pm$//;
 
