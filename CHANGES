@@ -1,6 +1,31 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-2.01, 2002.12.15
+---------------------------
+Switched to a more efficient storage mechanism, based on a binary tree.
+Have already optimized the country code storage. In future revisions,
+will reduce storage requirements again, so that the whole database 
+occupies only (70KB). At the moment, it's around 142KB, which is a lot
+smaller than the 512KB it had previously occupied when using DBM files.
+
+Memory usage during execution is minimal (<200KB), and will reduce as 
+the database size reduces.
+
+Seems to work on Macintosh, which was a worry about bundling the built
+database. The database has a .gif extension, which may help prevent
+munging when transferring between non-sane systems.
+
+Within the next few revisions, I will publish the database schematics, 
+and build a C++ interface for reading the database. Hence the avoidance
+of hashes in the code. Remaining hash (%cc) may or may not be replaced
+depending on speed implications.
+
+All manipulation of binary file data is now through some form of
+pack('N',$foo) or unpack('N',$bar), which seem to be reliably cross
+platform.
+
+
 IP-Country-2.00, 2002.12.13
 ---------------------------
 No longer relies on AnyDBM_File. Memory usage has been halved and module

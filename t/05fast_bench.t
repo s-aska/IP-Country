@@ -5,12 +5,13 @@ use IP::Country::Fast;
 # use Time::HiRes qw ( time );
 BEGIN { plan tests => 1 }
 
+# my $iter = 65535;
 my $iter = 32767;
 my $reg = IP::Country::Fast->new();
 my ($found,$t1,$delta);
 
 $found = 0;
-$t1 = time();;
+$t1 = time();
 for (my $i=1; $i<=$iter; $i++)
 {
     my $ip = int(rand(256)).'.'.int(rand(256)).'.'.int(rand(256)).'.'.int(rand(256));

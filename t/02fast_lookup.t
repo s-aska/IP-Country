@@ -35,15 +35,21 @@ foreach my $reg (@reg_files){
 my $cc = IP::Country::Fast->new();
 
 my $fail = 0;
+my $found = 0;
+my $t1 = time();
 for (my $i = 0; $i<=$#test_ipa; $i++){
     my $cnta = $cc->inet_atocc($test_ipa[$i]);
-    unless ($cnta eq $test_country[$i]){
+    if ($cnta eq $test_country[$i]){
+        $found++;
+    } else {
         warn ($test_ipa[$i].'-'.$cnta.'-'.$test_country[$i]);
         $fail = 1;
     }
 }
+my $delta = (time() - $t1) || 1; # avoid zero division
 if ($fail){
   ok(0);
 } else {
   ok(1);
 }
+print STDERR (" # sequential find (100%, ".int($found/$delta)." lookups/sec)\n");

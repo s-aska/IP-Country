@@ -26,6 +26,8 @@ unless ($@) { # Make sure we did find the module.
     }
 }
 
+# require 'sorted_ranges2dbm.pl';
+
 WriteMakefile(
 	      NAME            => $PACKAGE,
 	      VERSION_FROM    => "lib/$PACKAGE_FILE.pm", # finds $VERSION
