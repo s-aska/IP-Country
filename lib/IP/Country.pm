@@ -1,7 +1,7 @@
 package IP::Country;
 use IP::Country::Fast;
 @IP::Country::ISA = qw ( IP::Country::Fast );
-$IP::Country::VERSION = 2.08;
+$IP::Country::VERSION = 2.11;
 1;
 __END__
 
@@ -15,6 +15,7 @@ IP::Country - fast lookup of country codes from IP addresses
   my $reg = IP::Country::Fast->new();
   print $reg->inet_atocc('212.67.197.128')   ."\n";
   print $reg->inet_atocc('www.slashdot.org') ."\n";
+  print $reg->db_time() ."\n"; # revision date
 
 =head1 DESCRIPTION
 
@@ -66,6 +67,13 @@ and pass it to IP::Country::Fast::inet_ntocc() rather than this method.
 Takes a string (an opaque string as returned by Socket::inet_aton()) 
 and translates it into a two-letter country code. If the IP address is 
 not contained within the database, returns undef.
+
+=item $cc = $reg-E<gt>db_time()
+
+Returns the creation date of the database, measured as number of seconds 
+since the Unix epoch (00:00:00 GMT, January 1, 1970). Suitable for feeding 
+to "gmtime" and "localtime". When used with IP::Country::Medium or Slow objects,
+returns zero.
 
 =back
 

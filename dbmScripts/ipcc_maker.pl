@@ -33,6 +33,7 @@ print "Saving ultralite IP registry to disk\n";
 my $ip = new IO::File "> ../lib/IP/Country/Fast/ip.gif";
 if (defined $ip) {
     binmode $ip;
+    print $ip pack("N",time()); # returned by $obj->db_time()
     $tree->printTree($ip);
     $ip->close();
 } else {

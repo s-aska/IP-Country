@@ -4,7 +4,7 @@ $^W = 1;
 use Socket qw ( inet_aton );
 
 use vars qw ( $VERSION );
-$VERSION = '301.002'; # JAN 2003, version 0.02
+$VERSION = '302.001'; # FEB 2003, version 0.01
 
 my $singleton = undef;
 my $ip_db;
@@ -62,7 +62,12 @@ sub new ()
     return $singleton;
 }
 
-sub inet_atocc ($)
+sub db_time
+{
+    return unpack("N",substr($ip_db,0,4));
+}
+
+sub inet_atocc
 {
     my $inet_a = $_[1];
     if ($inet_a =~ $ip_match){
@@ -78,7 +83,7 @@ sub inet_atocc ($)
     }
 }
 
-sub inet_ntocc ($)
+sub inet_ntocc
 {
     # FORMATTING OF EACH NODE IN $ip_db
     # bit0 - true if this is a country code, false if this
@@ -96,7 +101,7 @@ sub inet_ntocc ($)
 
     my $inet_n = $_[1] || $_[0];
 
-    my $pos = 0;
+    my $pos = 4;
     my $byte_zero = substr($ip_db,$pos,1);
     # loop through bits of IP address
     for (my $i = 0; $i <= 31; $i++){

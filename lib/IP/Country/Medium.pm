@@ -5,7 +5,7 @@ use Socket qw ( inet_aton inet_ntoa AF_INET );
 use IP::Country::Fast;
 
 use vars qw ( $VERSION );
-$VERSION = '0.03';
+$VERSION = '0.04';
 
 my $singleton = undef;
 
@@ -35,6 +35,11 @@ sub cache
 	$cache = 0;
 	%cache = ();
     }
+}
+
+sub db_time
+{
+    return 0;
 }
 
 sub inet_atocc

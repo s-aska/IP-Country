@@ -32,6 +32,7 @@ WriteMakefile(
 	      NAME            => $PACKAGE,
 	      VERSION_FROM    => "lib/$PACKAGE_FILE.pm", # finds $VERSION
 	      PREREQ_PM       => {
+		'Geography::Countries' => '1.3'
 		  },
 	      AUTHOR          => 'Nigel Wetters <nwetters@cpan.org>',
 	      ABSTRACT_FROM   => "lib/$PACKAGE_FILE.pm"

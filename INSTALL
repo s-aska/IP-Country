@@ -31,7 +31,7 @@ search engine:
 Download the latest version using your web browser, and unzip the 
 distribution:
 
-  $ tar -zxvf IP-Country-2.02.tar.gz
+  $ tar -zxvf IP-Country-2.11.tar.gz
 
 The above command works with GNU tar. Other versions of tar might not
 support the 'z' flag. In that case, refer to your operating system's
@@ -40,7 +40,7 @@ instructions for unpacking.
 A directory will have been created below your current directory. From
 this new directory, make and test the modules:
 
-  $ cd IP-Country-2.02/
+  $ cd IP-Country-2.11/
   $ perl Makefile.PL
   $ make
   $ make test
@@ -143,6 +143,9 @@ statitics require unzipping before running the script.
   ftp://ftp.arin.net/other/dump/aup_dump.txt.gz
   ftp://ftp.apnic.net/public/apnic/stats/apnic/
   ftp://ftp.lacnic.net/pub/stats/lacnic/
+
+** I also usually include the stats dumps from RIPE and ARIN - I've
+found that the arin aup_dump doesn't contain all of their ranges **
 
 The output of ipcc_loader.pl (sorted_ranges.txt) is read by the second
 script (ipcc_maker.pl) to produce two database files in the 

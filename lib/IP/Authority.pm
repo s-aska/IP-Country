@@ -4,7 +4,7 @@ $^W = 1;
 use Socket qw ( inet_aton );
 
 use vars qw ( $VERSION );
-$VERSION = '301.002'; # JAN 2003, version 0.02
+$VERSION = '302.001'; # FEB 2003, version 0.01
 
 my $singleton = undef;
 my $ip_db;
@@ -61,7 +61,7 @@ sub new ()
     return $singleton;
 }
 
-sub inet_atoauth ($)
+sub inet_atoauth
 {
     my $inet_a = $_[1];
     if ($inet_a =~ $ip_match){
@@ -75,11 +75,16 @@ sub inet_atoauth ($)
     }
 }
 
-sub inet_ntoauth ($)
+sub db_time
+{
+    return unpack("N",substr($ip_db,0,4));
+}
+
+sub inet_ntoauth
 {
     my $inet_n = $_[1] || $_[0];
 
-    my $pos = 0;
+    my $pos = 4;
     my $byte_zero = substr($ip_db,$pos,1);
     # loop through bits of IP address
     for (my $i = 0; $i <= 31; $i++){
@@ -199,6 +204,12 @@ registry that has authority of that IP address:
   IA = IANA (see RFC3330)
   
 If the IP address is not contained within the database, returns undef.
+
+=item $cc = $reg-E<gt>db_time()
+
+Returns the creation date of the database, measured as number of seconds 
+since the Unix epoch (00:00:00 GMT, January 1, 1970). Suitable for feeding 
+to "gmtime" and "localtime".
 
 =back
 

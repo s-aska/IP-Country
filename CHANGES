@@ -1,6 +1,26 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-2.11, 2003.02.04
+---------------------------
+Skipped two point versions to sync with Java version numbers. Email me
+if you're interested in the java version.
+
+Added method to find revision date of database (thx Paul Gampe). Date
+is stored as first four bytes of database.
+
+Unbundled Geography::Countries, as it screws the indexing of abigail's
+version on http://search.cpan.org/
+
+Monthly database update:
+  apnic-2003-02-01
+  arin.20030201
+  aup_dump.txt (Feb  4 05:37)
+  lacnic.20030201
+  ripe.db.inetnum (Feb  4 01:37)
+  ripencc.20030203
+
+
 IP-Country-2.08, 2003.01.08
 ---------------------------
 Bundled Geography::Countries (thx Abigail).
