@@ -4,7 +4,7 @@ $^W = 1;
 use Socket qw ( inet_aton );
 
 use vars qw ( $VERSION );
-$VERSION = '309.001'; # SEP 2003, version 0.01
+$VERSION = '309.002'; # SEP 2003, version 0.02
 
 my $singleton = undef;
 my $ip_db;
@@ -72,8 +72,6 @@ sub inet_atocc
     my $inet_a = $_[1];
     if ($inet_a =~ $ip_match){
 	return inet_ntocc($dtoc[$1].$dtoc[$2].$dtoc[$3].$dtoc[$4]);
-    } elsif ($inet_a =~ $tld_match){
-	return uc $1;
     } else {
 	if (defined (my $n = inet_aton($inet_a))){
 	    return inet_ntocc($n);

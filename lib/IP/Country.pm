@@ -1,7 +1,7 @@
 package IP::Country;
 use IP::Country::Fast;
 @IP::Country::ISA = qw ( IP::Country::Fast );
-$IP::Country::VERSION = 2.16;
+$IP::Country::VERSION = 2.17;
 1;
 __END__
 
@@ -56,11 +56,6 @@ If the resolved IP address is not contained within the database, returns undef.
 For multi-homed hosts (hosts with more than one address), the first 
 address found is returned. For private Internet addresses (see RFC1918), 
 returns two asterisks '**'.
-
-If domain names are submitted to inet_atocc that end with a two-letter 
-top-level domain, this is upper-cased and returned without further effort. 
-If you don't like this behaviour, call Socket::inet_aton() on the hostname 
-and pass it to IP::Country::Fast::inet_ntocc() rather than this method.
 
 =item $cc = $reg-E<gt>inet_ntocc(IP_ADDRESS)
 
