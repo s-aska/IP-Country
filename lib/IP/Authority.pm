@@ -4,7 +4,7 @@ $^W = 1;
 use Socket qw ( inet_aton );
 
 use vars qw ( $VERSION );
-$VERSION = '302.001'; # FEB 2003, version 0.01
+$VERSION = '304.001'; # APR 2003, version 0.01
 
 my $singleton = undef;
 my $ip_db;
@@ -145,11 +145,11 @@ IP::Authority - fast lookup of authority by IP address
 =head1 DESCRIPTION
 
 Historically, the former InterNIC  managed (under the auspices of IANA)
-the allocation of IP numbers to ISPs and other organisations. This changed
+the allocation of IP numbers to ISPs and other organizations. This changed
 somewhat when the Regional Internet Registry system was started, with the
 creation of three (and later, four) Regional Internet Registries (RIRs)
 around the world, each managing the allocation of IP addresses to 
-organisations within differing physical areas (see also RFC2050).
+organizations within differing physical areas (see also RFC2050).
 
 This means that there is no central whois database for IP numbers.
 
@@ -177,7 +177,7 @@ Using the module in a procedural fashion (without the arrow syntax) won't work.
 =item $auth = $reg-E<gt>inet_atoauth(HOSTNAME)
 
 Takes a string giving the name of a host, and translates that to an
-two-letter string representing the regional Inertnet registry that has authority
+two-letter string representing the regional Internet registry that has authority
 of that IP address:
 
   AR = ARIN (North America)
@@ -194,7 +194,7 @@ with more than one address), the first address found is returned.
 =item $auth = $reg-E<gt>inet_ntoauth(IP_ADDRESS)
 
 Takes a string (an opaque string as returned by Socket::inet_aton()) 
-and translates it into a two-letter string representing the regional Inertnet 
+and translates it into a two-letter string representing the regional Internet 
 registry that has authority of that IP address:
 
   AR = ARIN (North America)
@@ -205,7 +205,7 @@ registry that has authority of that IP address:
   
 If the IP address is not contained within the database, returns undef.
 
-=item $cc = $reg-E<gt>db_time()
+=item $t = $reg-E<gt>db_time()
 
 Returns the creation date of the database, measured as number of seconds 
 since the Unix epoch (00:00:00 GMT, January 1, 1970). Suitable for feeding 

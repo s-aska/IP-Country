@@ -1,7 +1,7 @@
 package IP::Country;
 use IP::Country::Fast;
 @IP::Country::ISA = qw ( IP::Country::Fast );
-$IP::Country::VERSION = 2.11;
+$IP::Country::VERSION = 2.12;
 1;
 __END__
 
@@ -55,7 +55,7 @@ type and '18.181.0.24'. If the host name cannot be resolved, returns undef.
 If the resolved IP address is not contained within the database, returns undef.
 For multi-homed hosts (hosts with more than one address), the first 
 address found is returned. For private Internet addresses (see RFC1918), 
-returns two asterixes '**'.
+returns two asterisks '**'.
 
 If domain names are submitted to inet_atocc that end with a two-letter 
 top-level domain, this is upper-cased and returned without further effort. 

@@ -1,6 +1,19 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-2.12, 2003.04.07
+---------------------------
+Slight documentation change.
+
+Monthly database update:
+  apnic-2003-04-01
+  aup_dump.txt (Apr  6 23:46) 
+  arin.20030401
+  lacnic.20030401
+  ripe.db.inetnum (Apr  7 01:38)
+  ripencc.20030406
+
+
 IP-Country-2.11, 2003.02.04
 ---------------------------
 Skipped two point versions to sync with Java version numbers. Email me
