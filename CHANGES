@@ -1,11 +1,19 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-2.00, 2002.12.13
+---------------------------
+No longer relies on AnyDBM_File. Memory usage has been halved and module
+loading time has been shortened. Now bundled with built database, which
+reduces complexity of Makefile.PL.
+
+
 IP-Country-1.99, 2002.12.12
 ---------------------------
 Updated arin and lacnic database. Have now preprocessed raw files.
 Laid foundations for version 2, which will have much smaller database,
-based on a binary tree.
+based on a binary tree. 'GB' country codes changed to 'UK'. Private
+IP addresses (RFC1918) now have country of '**'.
 
 
 IP-Country-1.70, 2002.12.02

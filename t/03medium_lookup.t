@@ -1,6 +1,6 @@
 use Test;
 use strict;
-use warnings;
+$^W = 1;
 use IP::Country::Medium;
 BEGIN { plan tests => 28 }
 

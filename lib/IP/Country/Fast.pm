@@ -1,19 +1,14 @@
 package IP::Country::Fast;
-# use strict;
-# $^W = 1;
-use Fcntl qw ( O_RDONLY );
+use strict;
+$^W = 1;
 use Socket qw ( inet_aton );
-BEGIN { 
-    @AnyDBM_File::ISA = qw(SDBM_File GDBM_File NDBM_File DB_File ODBM_File );
-}
-use AnyDBM_File;
 
 use vars qw ( $VERSION );
-$VERSION = '212.004'; # DEC 2002, version 0.04
+$VERSION = '212.005'; # DEC 2002, version 0.04
 
 my $singleton = undef;
 my %ip_db;
-my @cc;
+my %cc;
 my $tld_match = qr/\.([a-zA-Z][a-zA-Z])$/o;
 my $ip_match = qr/^(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])$/o;
 
@@ -27,21 +22,36 @@ my @dtoc;
 	$dtoc[$i] = substr(pack('N',$i),3,1);
     }
     (my $module_dir = $INC{'IP/Country/Fast.pm'}) =~ s/\.pm$//;
-    my %ip_dbm;
-    tie (%ip_dbm,'AnyDBM_File',"$module_dir/data",O_RDONLY, 0666)
-	or die ("couldn't open registry database: $!");
-    %ip_db = %ip_dbm;
-    untie %ip_dbm;
 
-    my %cc_dbm;
-    tie (%cc_dbm,'AnyDBM_File',"$module_dir/cc",O_RDONLY, 0666)
-	or die ("couldn't open country database: $!");
-    foreach my $cc_num (sort keys %cc_dbm){
-	my $cc = $cc_dbm{$cc_num};
-	$cc = undef if ($cc eq '--');
-	$cc[$cc_num] = $cc;
+    open (IP, "< $module_dir/ip.gif")
+	or die ("couldn't create IP database: $!");
+    binmode IP;
+    my $ip_ultra;
+    {
+	local $/;   # set it so <> reads all the file at once
+	$ip_ultra = <IP>;  # read in the file
     }
-    untie %cc_dbm;
+    close IP;
+    my $ip_num = (length $ip_ultra) / 6;
+    for (my $i = 0; $i < $ip_num; $i++){
+	$ip_db{substr($ip_ultra,6 * $i,5)} = substr($ip_ultra,6 * $i + 5,1);
+    }
+
+    open (CC, "< $module_dir/cc.gif")
+	or die ("couldn't create country database: $!");
+    binmode CC;
+    my $cc_ultra;
+    {
+	local $/;   # set it so <> reads all the file at once
+	$cc_ultra = <CC>;  # read in the file
+    }
+    close CC;
+    my $cc_num = (length $cc_ultra) / 3;
+    for (my $i = 0; $i < $cc_num; $i++){
+	my $cc = substr($cc_ultra,3 * $i + 1,2);
+	$cc = undef if ($cc eq '--');
+	$cc{substr($cc_ultra,3 * $i,1)} = $cc;
+    }
 }
 
 sub new ()
@@ -74,7 +84,7 @@ sub inet_ntocc ($)
 	my $masked_ip = $inet_n & $dton[$i];
 	my $key = $masked_ip.$dtoc[$i];
 	if (exists $ip_db{$key}){
-	    return $cc[$ip_db{$key}];
+	    return $cc{$ip_db{$key}};
 	}
     }
     return undef;
@@ -85,7 +95,7 @@ __END__
 
 =head1 NAME
 
-IP::Country::Fast - fast lookup of country codes by IP address
+IP::Country::Ultra - fast lookup of country codes by IP address
 
 =head1 SYNOPSIS
 

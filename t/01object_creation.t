@@ -1,7 +1,7 @@
 use Test;
 BEGIN { plan tests => 4 }
 use strict;
-use warnings;
+$^W = 1;
 use IP::Country;
 use IP::Country::Fast;
 use IP::Country::Medium;
