@@ -4,11 +4,12 @@ $^W = 1;
 use Socket qw ( inet_aton );
 
 use vars qw ( $VERSION );
-$VERSION = '212.008'; # DEC 2002, version 0.08
+$VERSION = '212.009'; # DEC 2002, version 0.09
 
 my $singleton = undef;
 my $ip_db;
 my $null = substr(pack('N',0),0,1);
+my $nullnullnull = $null . $null . $null;
 my %cc;
 my $tld_match = qr/\.([a-zA-Z][a-zA-Z])$/o;
 my $ip_match = qr/^(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])$/o;
@@ -86,28 +87,41 @@ sub inet_ntocc ($)
     #   bits 2-7 or bits 0-7 of next byte contain country code
     #
     # jumps:
-    #   bytes 0-3 jump distance
+    #   bytes 0-3 jump distance (only first byte used if
+    #          distance < 64)
 
     my $inet_n = $_[1] || $_[0];
 
     my $pos = 0;
+    my $byte_zero = substr($ip_db,$pos,1);
     # loop through bits of IP address
     for (my $i = 0; $i <= 31; $i++){
+
 	if (($inet_n & $mask[$i]) eq $mask[$i]){
 	    # bit[$i] is set [binary one]
 	    # - jump to next node
-	    $pos = $pos + 3 + unpack('N', $null . substr($ip_db,$pos,3));
+	    # (start of child[1] node)
+	    if (($byte_zero & $bit1) eq $bit1){
+		$pos = $pos + 1 + unpack('N', $nullnullnull . ($byte_zero ^ $bit1));
+	    } else {
+		$pos = $pos + 3 + unpack('N', $null . substr($ip_db,$pos,3));
+	    }
 	} else {
 	    # bit[$i] is unset [binary zero]
 	    # jump to end of this node
-	    $pos = $pos + 3;
+	    # (start of child[0] node)
+	    if (($byte_zero & $bit1) eq $bit1){
+		$pos = $pos + 1;
+	    } else {
+		$pos = $pos + 3;
+	    }
 	}
 	
 	# all terminal nodes of the tree start with zeroth bit 
 	# set to zero. the first bit can then be used to indicate
 	# whether we're using the first or second byte to store the
 	# country code
-	my $byte_zero = substr($ip_db,$pos,1);
+	$byte_zero = substr($ip_db,$pos,1);
 	if (($byte_zero & $bit0) eq $bit0){ # country code
 	    if (($byte_zero & $bit1) eq $bit1){
 		# unpopular country code - stored in second byte

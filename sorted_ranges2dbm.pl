@@ -185,7 +185,11 @@ sub _encode_cc
 sub _encode_size
 {
     my $size = shift;
-    return substr(pack('N',$size),1,3);
+    if ($size < 64){
+	return substr(pack('N',$size),3,1) | $bit1;
+    } else {
+	return substr(pack('N',$size),1,3);
+    }
 }
 
 sub _findSize
@@ -196,8 +200,9 @@ sub _findSize
 	my $cc = $self->get_cc_as_num($node->{cc});
 	$size = length(_encode_cc($cc));
     } else {
-	my $child_size = $self->_findSize($node->{0}) + $self->_findSize($node->{1});
-	$size = $child_size + length(_encode_size($child_size));
+	my $node_zero_size = $self->_findSize($node->{0});
+	my $node_one_size = $self->_findSize($node->{1});
+	$size = length(_encode_size($node_zero_size)) + $node_zero_size + $node_one_size;
     }
     return $size;
 }

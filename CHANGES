@@ -1,6 +1,12 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-2.05, 2002.12.18
+---------------------------
+Jump distance to next node now stored as variable-length, which reduces
+database size to 73KB.
+
+
 IP-Country-2.04, 2002.12.17
 ---------------------------
 Removed raw files. Fixed minor bug that affected *one* IP address!
