@@ -8,7 +8,7 @@ my $cc;
 eval 'use IP::Country::MaxMind';
 my $skipping = 0;
 if($@){
-    $skipping = 1;
+    $skipping = "Skip IP::Country::MaxMind is not usable";
 } else {
     eval '$cc = IP::Country::MaxMind->new()';
 }
@@ -16,11 +16,7 @@ if($@){
 while (<DATA>) {
     chomp;
     my ($ipaddr, $exp_country) = split(/\s+/);
-    if($skipping){
-	skip($skipping);
-    } else {
-	ok($exp_country,$cc->inet_atocc($ipaddr));
-    }
+    skip($skipping, sub { $exp_country }, sub { $cc->inet_atocc($ipaddr) });
 }
 
 __DATA__

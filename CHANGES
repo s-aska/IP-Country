@@ -1,6 +1,19 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+
+IP-Country-2.18, 2004.10.22
+---------------------------
+Fixed BUG in testsuite (thx k.heinz-cpan at onlinehome.de):
+  rt.cpan.org IDs 4454 and 7840
+More than a year since a DB update, and people are complaining.
+Database update:
+  /ripe/dbase/split/ripe.db.inetnum.gz (Oct 22)
+  /pub/stats/arin/delegated-arin-20041022
+  /public/apnic/stats/apnic/delegated-apnic-20041022
+  /pub/stats/lacnic/delegated-lacnic-20041021
+
+
 IP-Country-2.17, 2003.09.15
 ---------------------------
 IP::Country::MaxMind added
