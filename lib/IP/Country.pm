@@ -1,7 +1,7 @@
 package IP::Country;
 use IP::Country::Fast;
 @IP::Country::ISA = qw ( IP::Country::Fast );
-$IP::Country::VERSION = 2.05;
+$IP::Country::VERSION = 2.06;
 1;
 __END__
 
@@ -115,13 +115,13 @@ L<Geo::IP> - wrapper around the geoip C libraries. Less portable. Not measurably
 faster than these native Perl modules. Paid subscription required for database
 updates.
 
-L<www.apnic.net> - Asia pacific
+L<http://www.apnic.net> - Asia pacific
 
-L<www.ripe.net> - Europe
+L<http://www.ripe.net> - Europe
 
-L<www.arin.net> - North America
+L<http://www.arin.net> - North America
 
-L<www.lacnic.net> - Latin America
+L<http://www.lacnic.net> - Latin America
 
 =head1 COPYRIGHT
 
@@ -131,7 +131,7 @@ NO WARRANTY. This module is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 
 Some parts of this software distribution are derived from the APNIC,
-ARIN and RIPE databases (copyright details below). The author of
+LACNIC, ARIN and RIPE databases (copyright details below). The author of
 this module makes no claims of ownership on those parts.
 
 =head1 APNIC conditions of use
@@ -153,6 +153,12 @@ resource may currently be in use.
 =head1 ARIN database copyright
 
 Copyright (c) American Registry for Internet Numbers. All rights reserved.
+
+The ARIN WHOIS data is for Internet operational or technical research
+purposes pertaining to Internet operations only.  It may not be used for
+advertising, direct marketing, marketing research, or similar purposes.
+Use of the ARIN WHOIS data for these activities is explicitly forbidden.
+ARIN requests to be notified of any such activities or suspicions thereof.
 
 =head1 RIPE database copyright
 

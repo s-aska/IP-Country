@@ -2,6 +2,7 @@ CHANGES
 Makefile.PL
 MANIFEST
 README
+INSTALL
 lib/IP/Country.pm
 lib/IP/Country/Fast.pm
 lib/IP/Country/Medium.pm

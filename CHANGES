@@ -1,6 +1,22 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-2.06, 2002.12.30
+---------------------------
+After a conversation with Katie Petrusha (RIPE Database Administration),
+I've now switched to using the full RIPE database, rather than the 
+statistics. Many, many thanks to her for her expert advice. The database
+is now based on around 750,000 separate IP ranges.
+  So, the database is now bigger and slightly slower (but not to the 
+extent that anyone should notice). I think the performance hit is 
+worthwhile considering the benefit of the increased accuracy. Again,
+thank you Katie for the hints. If anyone from ARIN, APNIC or LACNIC is 
+in a similar position to help me out with their databases, please let 
+me know.
+  Also, requested confirmation from the RIRs that their copyright
+notices were correct, and have altered the copyright appropriately.
+
+
 IP-Country-2.05, 2002.12.18
 ---------------------------
 Jump distance to next node now stored as variable-length, which reduces

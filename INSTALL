@@ -126,34 +126,20 @@ country-code database. This version has been tested by the author of
 these modules, so is likely to work. I'm sure that some people will
 be interested to know how the database has been constructed, and want
 to build their own versions of the database. This is possible using
-the two scripts provided (rdbms_reg.pl and sorted_ranges2dbm.pl).
+the two scripts provided (bigmemload.pl and sorted_ranges2dbm.pl).
 
-The first script (rdbms_reg.pl) processes the files found in the 
-./rir_data directory, and inserts those data into a relational database.
-The files in the ./rir_data directory are recent statistics from the
-four regional internet registries (RIRs):
+The first script (bigmemload.pl) processes the files found in the 
+./rir_data directory, and produces a sorted flat file of non-overlapping
+IP ranges. The files in the ./rir_data directory are recent statistics
+from the four regional internet registries (RIRs). The RIPE statitics
+require unzipping befor running the script.
 
+  ftp://ftp.ripe.net/ripe/dbase/split/ripe.db.inetnum.gz
   ftp://ftp.arin.net/pub/stats/arin/
-  ftp://ftp.ripe.net/ripe/stats/
   ftp://ftp.apnic.net/public/apnic/stats/apnic/
   ftp://ftp.lacnic.net/pub/stats/lacnic/
 
-In the bundled database, I usually need to make a couple of edit of the
-RIR statistics, where two registries are both claiming to have allocated
-a certain IP range.
-
-I have supplied a schema for a MySQL database that can hold the RIR
-ranges. Here's how the script might be used:
-
-  $ ./rdbms_reg.pl dbi:mysql:foo fred barbaz > sorted_ranges.txt
-
-This connects to a MySQL database named 'foo' as user 'fred' with 
-a password of 'barbaz', and produces a cleaned list of IP ranges in the
-file named 'sorted_ranges.txt'. Note that this script can take a long
-time, even on a powerful machine. At the moment, I have no reason to
-make it faster, as I only run it once a month.
-
-The output of rdbms_reg.pl (sorted_ranges.txt) is read by the second
+The output of bigmemload.pl (sorted_ranges.txt) is read by the second
 script (sorted_ranges2dbm.pl) to produce two database files in the 
 lib/IP/Country/Fast directory named ip.gif and cc.gif. They have been
 given the .gif suffix to help some FTP clients properly cope with

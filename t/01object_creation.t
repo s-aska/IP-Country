@@ -1,3 +1,4 @@
+# *-*-perl-*-*
 use Test;
 BEGIN { plan tests => 4 }
 use strict;

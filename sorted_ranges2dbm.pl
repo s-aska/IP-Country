@@ -188,6 +188,7 @@ sub _encode_size
     if ($size < 64){
 	return substr(pack('N',$size),3,1) | $bit1;
     } else {
+	die ($size) if ($size >= 2**29);
 	return substr(pack('N',$size),1,3);
     }
 }

@@ -1,3 +1,4 @@
+# *-*-perl-*-*
 use Test;
 use strict;
 $^W = 1;
@@ -10,7 +11,7 @@ while (<DATA>) {
     chomp;
     my ($ipaddr, $exp_country) = split("\t");
     if ($exp_country){
-        ok($cc->inet_atocc($ipaddr), $exp_country);
+	ok($cc->inet_atocc($ipaddr), $exp_country);
     }
 }
 

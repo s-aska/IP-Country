@@ -1,3 +1,4 @@
+# *-*-perl-*-*
 use Test;
 use strict;
 $^W = 1;
