@@ -1,0 +1,19 @@
+IP::COUNTRY
+-----------
+
+To build and test these modules:
+
+  perl Makefile.PL
+  make
+  make test TEST_VERBOSE=1
+
+If all tests run without errors, you can complete the installation process.
+
+  make install
+
+This final stage might require superuser privileges.
+
+If the building and testing process throws any erros, DO NOT attempt to 
+install. The problem will probably be solved by installing some pre-requisite 
+as indicated in the errors, but it might also be an indicator of some 
+underlying problems with the code in the modules.

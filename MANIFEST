@@ -1,0 +1,8 @@
+CHANGES
+Makefile.PL
+MANIFEST
+README
+lib/IP/Country.pm
+t/00parsable.t
+t/01object_creation.t
+t/02lookup.t
