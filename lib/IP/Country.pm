@@ -1,7 +1,7 @@
 package IP::Country;
 use IP::Country::Fast;
 @IP::Country::ISA = qw ( IP::Country::Fast );
-$IP::Country::VERSION = 2.02;
+$IP::Country::VERSION = 2.03;
 1;
 __END__
 
@@ -12,8 +12,9 @@ IP::Country - fast lookup of country codes from IP addresses
 =head1 SYNOPSIS
 
   use IP::Country::Fast;
-  use IP::Country::Medium;
-  use IP::Country::Slow;
+  my $reg = IP::Country::Fast->new();
+  print $reg->inet_atocc('212.67.197.128')   ."\n";
+  print $reg->inet_atocc('www.slashdot.org') ."\n";
 
 =head1 DESCRIPTION
 
@@ -25,10 +26,8 @@ most common domain (.com) offers no help when looking for country.
 This module comes bundled with a database of countries where various IP addresses
 have been assigned. Although the country of assignment will probably be the
 country associated with a large ISP rather than the client herself, this is
-probably good enough for most log analysis applications.
-
-This module will probably be most useful when used after domain lookup has failed,
-or when it has returned a non-useful TLD (.com, .net, etc.).
+probably good enough for most log analysis applications, and under test has proved
+to be as accurate as reverse-DNS and WHOIS lookup.
 
 =head1 CONSTRUCTOR
 
@@ -54,7 +53,8 @@ two-letter country code. Takes arguments of both the 'rtfm.mit.edu'
 type and '18.181.0.24'. If the host name cannot be resolved, returns undef. 
 If the resolved IP address is not contained within the database, returns undef.
 For multi-homed hosts (hosts with more than one address), the first 
-address found is returned.
+address found is returned. For private Internet addresses (see RFC1918), 
+returns two asterixes '**'.
 
 If domain names are submitted to inet_atocc that end with a two-letter 
 top-level domain, this is upper-cased and returned without further effort. 
@@ -79,9 +79,25 @@ me know if you've run this against a set of 'real' IP addresses from your
 log files, and have details of the proportion of IPs that had associated
 country codes.
 
+=head1 IP::Country::Slow warning
+
+During tests of this module, it was found that there was no measurable advantage in using
+this module in preference to IP::Country::Medium or IP::Country::Fast. You should
+use IP::Country::Medium is the majority of your lookups are of the form 'rtfm.mit.edu'
+(domain names), and IP::Country::Fast if the majority of your lookups are of the form
+'18.181.0.24' (IP addresses).
+
+IP::Country::Medium caches domain-name lookups, whereas IP::Country::Fast does not.
+
+It is *very* rare for a domain-name lookup to differ from the database used by
+IP::Country::Fast. Thus, there is no good reason to prefer a slow domain-name 
+lookup to a fast database lookup. Nor is there any significant difference in
+coverage between the domain-name system and database. If you can find a real reason
+to use IP::Country::Slow, let me know.
+
 =head1 BUGS/LIMITATIONS
 
-Only works with IPv4 addresses.
+Only works with IPv4 addresses and ASCII hostnames.
 
 =head1 SEE ALSO
 
@@ -109,7 +125,7 @@ L<www.lacnic.net> - Latin America
 
 =head1 COPYRIGHT
 
-Copyright (C) 2002 Nigel Wetters. All Rights Reserved.
+Copyright (C) 2002,2003 Nigel Wetters. All Rights Reserved.
 
 NO WARRANTY. This module is free software; you can redistribute 
 it and/or modify it under the same terms as Perl itself.
@@ -152,5 +168,10 @@ copyright holders. Any use of this material to target advertising
 or similar activities is explicitly forbidden and may be prosecuted. 
 The RIPE NCC requests to be notified of any such activities or 
 suspicions thereof."
+
+=head1 LACNIC database copyright
+
+Copyright (c) Latin American and Caribbean IP address Regional Registry.
+All rights reserved.
 
 =cut
