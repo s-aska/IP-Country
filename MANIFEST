@@ -6,3 +6,8 @@ lib/IP/Country.pm
 lib/IP/Country/Fast.pm
 lib/IP/Country/Medium.pm
 lib/IP/Country/Slow.pm
+t/01object_creation.t
+t/02fast_lookup.t
+t/03medium_lookup.t
+t/04slow_lookup.t
+t/05fast_bench.t

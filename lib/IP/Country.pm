@@ -1,7 +1,7 @@
 package IP::Country;
 use IP::Country::Fast;
 @IP::Country::ISA = qw ( IP::Country::Fast );
-$IP::Country::VERSION = 1.67;
+$IP::Country::VERSION = 1.69;
 1;
 __END__
 
@@ -72,8 +72,8 @@ not contained within the database, returns undef.
 =head1 PERFORMANCE
 
 With a random selection of 65,000 IP addresses, the module can look up
-over 10,000 IP addresses per second on a 730MHz PIII (Coppermine) and
-over 20,000 IP addresses per second on a 1.3GHz Athlon. Out of this random 
+over 15,000 IP addresses per second on a 730MHz PIII (Coppermine) and
+over 25,000 IP addresses per second on a 1.3GHz Athlon. Out of this random 
 selection of IP addresses, 43% had an associated country code. Please let 
 me know if you've run this against a set of 'real' IP addresses from your
 log files, and have details of the proportion of IPs that had associated
@@ -81,7 +81,7 @@ country codes.
 
 =head1 BUGS/LIMITATIONS
 
-Only works with IPv4 addresses. LACNIC ranges have not yet been incorporated.
+Only works with IPv4 addresses.
 
 =head1 SEE ALSO
 
@@ -105,7 +105,7 @@ L<www.ripe.net> - Europe
 
 L<www.arin.net> - North America
 
-L<www.lacnic.net> - Latin America (soon)
+L<www.lacnic.net> - Latin America
 
 =head1 COPYRIGHT
 

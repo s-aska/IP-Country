@@ -6,7 +6,7 @@ BEGIN { @AnyDBM_File::ISA = qw(SDBM_File GDBM_File NDBM_File DB_File ODBM_File )
 use AnyDBM_File;
 
 use vars qw ( $VERSION );
-$VERSION = '211.008'; # NOV 2002, version 0.08
+$VERSION = '211.009'; # NOV 2002, version 0.09
 
 my $singleton = undef;
 my %ip_db;
@@ -16,7 +16,8 @@ my $ip_match = qr/^([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])\.(
 my %mask;
 my %packed_range;
 
-my @ip_distribution = (24,28,16,17,18,19,20,21,22,23,13,15,14,12,11,10,9,8);
+my @ip_distribution = (31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,
+		       15,14,13,12,11,10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
 
 foreach my $i (@ip_distribution){
     $mask{$i} = pack('B32', ('1'x(32-$i)).('0'x$i));
@@ -42,7 +43,7 @@ sub new ()
     return $singleton;
 }
 
-sub inet_atocc
+sub inet_atocc ($)
 {
     my $inet_a = $_[1] || $_[0];
     unless ($inet_a =~ $ip_match){
@@ -53,14 +54,14 @@ sub inet_atocc
     return inet_ntocc(inet_aton($inet_a));
 }
 
-sub inet_ntocc
+sub inet_ntocc ($)
 {
     my $inet_n = $_[1] || $_[0];
     foreach my $range (@ip_distribution)
     {
 	my $masked_ip = $inet_n & $mask{$range};
-	if (exists $ip_db{$masked_ip.$packed_range{$range}}){
-	    return $ip_db{$masked_ip.$packed_range{$range}};
+	if (exists $ip_db{$packed_range{$range}.$masked_ip}){
+	    return $ip_db{$packed_range{$range}.$masked_ip};
 	}
     }
 }
@@ -133,8 +134,8 @@ not contained within the database, returns undef.
 =head1 PERFORMANCE
 
 With a random selection of 65,000 IP addresses, the module can look up
-over 10,000 IP addresses per second on a 730MHz PIII (Coppermine) and
-over 20,000 IP addresses per second on a 1.3GHz Athlon. Out of this random 
+over 15,000 IP addresses per second on a 730MHz PIII (Coppermine) and
+over 25,000 IP addresses per second on a 1.3GHz Athlon. Out of this random 
 selection of IP addresses, 43% had an associated country code. Please let 
 me know if you've run this against a set of 'real' IP addresses from your
 log files, and have details of the proportion of IPs that had associated
@@ -142,7 +143,7 @@ country codes.
 
 =head1 BUGS/LIMITATIONS
 
-Only works with IPv4 addresses. LACNIC ranges have not yet been incorporated.
+Only works with IPv4 addresses.
 
 =head1 SEE ALSO
 
@@ -157,7 +158,7 @@ L<www.ripe.net> - Europe
 
 L<www.arin.net> - North America
 
-L<www.lacnic.net> - Latin America (soon)
+L<www.lacnic.net> - Latin America
 
 =head1 COPYRIGHT
 

@@ -1,6 +1,16 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-1.69, 2002.11.19
+---------------------------
+LACNIC added.
+
+
+IP-Country-1.68, 2002.11.19
+---------------------------
+Added non-allocated areas to database as undef - 20% speedup.
+
+
 IP-Country-1.67, 2002.11.13
 ---------------------------
 Combined IP::Registry with IP::Country. From tests, previous IP::Country

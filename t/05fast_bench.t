@@ -2,6 +2,7 @@ use Test;
 use strict;
 use warnings;
 use IP::Country::Fast;
+# use Time::HiRes qw ( time );
 BEGIN { plan tests => 1 }
 
 my $iter = 32767;
