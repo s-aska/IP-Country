@@ -19,7 +19,7 @@ for (my $i=0; $i<=31; $i++){
 }
 
 my $ip_match = qr/^(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])$/o;
-my $reg_dir = 'rir_data';
+my $reg_dir = '../rir_data';
 
 # 'SPECIAL' IP RANGES (all from RFC3330)
 # a double asterix '**' indicates a local (non-public) IP ranges,
@@ -31,55 +31,40 @@ my $reg_dir = 'rir_data';
 insert_raw(unpack('N',inet_aton('0.0.0.0')),2**32,'--',2**31);
 
 # "This" Network [RFC1700, page 4]
-insert_raw(unpack('N',inet_aton('0.0.0.0')),2**24,'**',2**24);
+insert_raw(unpack('N',inet_aton('0.0.0.0')),2**24,'IA',2**24);
 
 # Private-Use Networks [RFC1918]
-insert_raw(unpack('N',inet_aton('10.0.0.0')),2**24,'**',2**24);
+insert_raw(unpack('N',inet_aton('10.0.0.0')),2**24,'IA',2**24);
 
 # Public Data Networks [RFC1700, page 181]
-insert_raw(unpack('N',inet_aton('14.0.0.0')),2**24,'--',2**24);
-
-# Reserved, but subject to allocation
-insert_raw(unpack('N',inet_aton('39.0.0.0')),2**24,'--',2**24);
+insert_raw(unpack('N',inet_aton('14.0.0.0')),2**24,'IA',2**24);
 
 # Loopback [RFC1700, page 5]
-insert_raw(unpack('N',inet_aton('127.0.0.0')),2**24,'**',2**24);
-
-# Reserved, but subject to allocation
-insert_raw(unpack('N',inet_aton('128.0.0.0')),2**16,'--',2**16);
+insert_raw(unpack('N',inet_aton('127.0.0.0')),2**24,'IA',2**24);
 
 # Link Local
-insert_raw(unpack('N',inet_aton('169.254.0.0')),2**16,'**',2**16);
+insert_raw(unpack('N',inet_aton('169.254.0.0')),2**16,'IA',2**16);
 
 # Private-Use Networks [RFC1918]
-insert_raw(unpack('N',inet_aton('172.16.0.0')),2**20,'**',2**20);
-
-# Reserved, but subject to allocation
-insert_raw(unpack('N',inet_aton('191.255.0.0')),2**16,'--',2**16);
-
-# Reserved, but subject to allocation
-insert_raw(unpack('N',inet_aton('192.0.0.0')),2**8,'--',2**8);
+insert_raw(unpack('N',inet_aton('172.16.0.0')),2**20,'IA',2**20);
 
 # Test-Net
-insert_raw(unpack('N',inet_aton('192.0.2.0')),2**8,'**',2**8);
+insert_raw(unpack('N',inet_aton('192.0.2.0')),2**8,'IA',2**8);
 
 # 6to4 Relay Anycast [RFC3068]
-insert_raw(unpack('N',inet_aton('192.88.99.0')),2**8,'**',2**8);
+insert_raw(unpack('N',inet_aton('192.88.99.0')),2**8,'IA',2**8);
 
 # Private-Use Networks [RFC1918]
-insert_raw(unpack('N',inet_aton('192.168.0.0')),2**16,'**',2**16);
+insert_raw(unpack('N',inet_aton('192.168.0.0')),2**16,'IA',2**16);
 
 # Network Interconnect Device Benchmark Testing [RFC2544]
-insert_raw(unpack('N',inet_aton('198.18.0.0')),2**17,'--',2**17);
-
-# Reserved, but subject to allocation
-insert_raw(unpack('N',inet_aton('223.255.255.0')),2**8,'--',2**8);
+insert_raw(unpack('N',inet_aton('198.18.0.0')),2**17,'IA',2**17);
 
 # Multicast [RFC3171]
-insert_raw(unpack('N',inet_aton('224.0.0.0')),2**28,'--',2**28);
+insert_raw(unpack('N',inet_aton('224.0.0.0')),2**28,'IA',2**28);
 
 # Reserved for Future Use [RFC1700, page 4]
-insert_raw(unpack('N',inet_aton('240.0.0.0')),2**28,'--',2**28);
+insert_raw(unpack('N',inet_aton('240.0.0.0')),2**28,'IA',2**28);
 
 read_ripe();
 read_reg();
@@ -91,7 +76,7 @@ output();
 
 sub output
 {
-    open(OUTFILE,"> sorted_ranges.txt") or die ($!);
+    open(OUTFILE,"> sorted_authorities.txt") or die ($!);
     foreach my $key (sort keys %range){
 	print OUTFILE inet_ntoa(substr($key,0,4)) . '|';
 	print OUTFILE 2 ** unpack('C',substr($key,4,1)) .'|';
@@ -345,8 +330,7 @@ sub read_ripe
 	while (my $line = <REG>){
 	    if (defined $start){
 		next unless $line =~ $ripe_cc_line;
-		$cc = uc $1;
-		$cc = 'UK' if ($cc eq 'GB');
+		$cc = 'RI';
 		insert_raw($start,$end-$start+1,$cc,$end-$start+1);
 		$start = undef;
 		$end = undef;
@@ -378,10 +362,14 @@ sub read_reg
 	while (my $line = <REG>){
 	    chomp $line;
 	    next unless $line =~ $stat_line;
-	    my ($auth,$cc,$ip,$size) = ($1,uc $2,$3,$4);
+	    my ($auth,$cc,$ip,$size) = ($1,undef,$3,$4);
 	    next unless ($ip =~ $ip_match);
 	    my $start = ($1 * 16777216) + ($2 * 65536) + ($3 * 256) + $4;
-	    $cc = 'UK' if ($cc eq 'GB');
+	    $cc = 'AP' if ($auth eq 'apnic');
+	    $cc = 'AR' if ($auth eq 'arin');
+	    $cc = 'IA' if ($auth eq 'iana');
+	    $cc = 'LA' if ($auth eq 'lacnic');
+	    die ('no authrority') unless defined $cc;
 	    insert_raw($start,$size,$cc,$size);
 	}
 	close REG || warn("can't close $reg_dir/$path, but continuing: $!");

@@ -1,6 +1,18 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-2.07, 2003.01.01
+---------------------------
+First release of IP::Authority, a module that performs fast lookup of
+Internet authority by IP address.
+
+Monthly database update:
+  apnic-2003-01-01
+  arin.20030101
+  lacnic.20030101
+  ripe.db.inetnum (31/12/02  23:52:00)
+
+
 IP-Country-2.06, 2002.12.30
 ---------------------------
 After a conversation with Katie Petrusha (RIPE Database Administration),

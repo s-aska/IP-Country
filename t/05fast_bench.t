@@ -25,4 +25,4 @@ $delta = (time() - $t1) || 1; # avoid zero division
 ok(1);
 print STDERR (" # random find (".int(($found * 100)/$iter)."%, "
 	      .int($iter/$delta)." lookups/sec)\n");
-sleep(10);
+# sleep(10);

@@ -14,7 +14,7 @@ for (my $i=0; $i<=31; $i++){
 my $tree = IPTree->new();
 
 # and this is our pre-generated list of ranges
-my $reg_file = 'sorted_ranges.txt';
+my $reg_file = 'sorted_countries.txt';
 
 open (REG, "< $reg_file") || die("can't open $reg_file: $!");
 while (my $line = <REG>){
@@ -30,7 +30,7 @@ close REG || warn("can't close $reg_file, but continuing: $!");
 
 
 print "Saving ultralite IP registry to disk\n";
-my $ip = new IO::File "> lib/IP/Country/Fast/ip.gif";
+my $ip = new IO::File "> ../lib/IP/Country/Fast/ip.gif";
 if (defined $ip) {
     binmode $ip;
     $tree->printTree($ip);
@@ -42,7 +42,7 @@ if (defined $ip) {
 
 print "Saving ultralite country database to disk\n";
 
-open (CC, "> lib/IP/Country/Fast/cc.gif")
+open (CC, "> ../lib/IP/Country/Fast/cc.gif")
     or die ("couldn't create country database: $!");
 binmode CC;
 foreach my $country (sort $tree->get_countries()){
