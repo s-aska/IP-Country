@@ -1,6 +1,11 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-2.02, 2002.12.16
+---------------------------
+Oops! Forgot to make clean before zipping up the distribution. My bad!
+
+
 IP-Country-2.01, 2002.12.15
 ---------------------------
 Switched to a more efficient storage mechanism, based on a binary tree.
