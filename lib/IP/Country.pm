@@ -1,7 +1,7 @@
 package IP::Country;
 use IP::Country::Fast;
 @IP::Country::ISA = qw ( IP::Country::Fast );
-$IP::Country::VERSION = 2.07;
+$IP::Country::VERSION = 2.08;
 1;
 __END__
 
@@ -94,6 +94,24 @@ IP::Country::Fast. Thus, there is no good reason to prefer a slow domain-name
 lookup to a fast database lookup. Nor is there any significant difference in
 coverage between the domain-name system and database. If you can find a real reason
 to use IP::Country::Slow, let me know.
+
+=head1 COUNTRY CODES
+
+Bundled with this distribution is Abigail's L<Geography::Countries> module. This is
+because you'll probably want some kind of country code -E<gt> country name conversion
+utility, and you shouldn't try to reinvent the wheel.
+
+However, you should note the circumstances where the country code returned by
+IP::Country will deviate from those used by L<Geography::Countries>:
+
+  AP - non-specific Asia-Pacific location
+  CS - Czechoslovakia (former)
+  EU - non-specific European Union location
+  FX - France, Metropolitan
+  PS - Palestinian Territory, Occupied
+  UK - United Kingdom (standard says GB)
+  ** - intranet address
+  undef - not in database
 
 =head1 BUGS/LIMITATIONS
 

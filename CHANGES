@@ -1,6 +1,20 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-2.08, 2003.01.08
+---------------------------
+Bundled Geography::Countries (thx Abigail).
+
+First release to use full arin data, and all summary files (they
+probably can't do any harm with the new handicapping code):
+  apnic-2003-01-01
+  arin.20030101
+  lacnic.20030101
+  ripencc.20030101
+  aup_dump.txt.gz (Jan  7 20:34)
+  ripe.db.inetnum (Jan  7 23:52)
+
+
 IP-Country-2.07, 2003.01.01
 ---------------------------
 First release of IP::Authority, a module that performs fast lookup of

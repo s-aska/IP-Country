@@ -3,25 +3,39 @@ use Test;
 use strict;
 $^W = 1;
 use IP::Country::Fast;
+
+# uncomment the next line for accurate timings
 # use Time::HiRes qw ( time );
+
 BEGIN { plan tests => 1 }
 
-# my $iter = 65535;
-my $iter = 32767;
-my $reg = IP::Country::Fast->new();
-my ($found,$t1,$delta);
+# set to something bigger on a fast machine
+my $iter = (2 ** 15) - 1;
 
-$found = 0;
-$t1 = time();
-for (my $i=1; $i<=$iter; $i++)
+# first, populate our array of random IP addresses
+my @ip;
+for (my $i=0; $i<$iter; $i++)
 {
-    my $ip = int(rand(256)).'.'.int(rand(256)).'.'
+    $ip[$i] = int(rand(256)).'.'.int(rand(256)).'.'
 	.int(rand(256)).'.'.int(rand(256));
-    if ($reg->inet_atocc($ip)){
-        $found++;
-    }
 }
-$delta = (time() - $t1) || 1; # avoid zero division
+
+# second, time how long the lookups take
+my $reg = IP::Country::Fast->new();
+my $t1 = time();
+for (my $i=0; $i<$iter; $i++)
+{
+    $reg->inet_atocc($ip[$i]);
+}
+my $delta = (time() - $t1) || 1; # avoid zero division
+
+# finally, check the coverage
+my $found = 0;
+for (my $i=0; $i<$iter; $i++)
+{
+    $found++ if ($reg->inet_atocc($ip[$i]));
+}
+
 ok(1);
 print STDERR (" # random find (".int(($found * 100)/$iter)."%, "
 	      .int($iter/$delta)." lookups/sec)\n");

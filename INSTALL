@@ -103,11 +103,10 @@ I found out the location of the INCLUDE directories using 'perl -V':
 
 Copying into your INCLUDE path will probably require superuser 
 privileges. If you don't have such privileges, it is still possible
-to use the modules within your programs. Copy the lib/IP directory
-to some location where you have read/write privileges. For example:
+to use the modules within your programs. Copy the modules to some
+location where you have read/write privileges. For example:
 
-  $ mkdir /home/nigel/perllibs
-  $ copy -r lib/IP /home/nigel/perllibs/
+  $ copy -r lib /home/nigel/perllibs
   $ chmod -R uga+r /home/nigel/perllibs/
 
 Now, inside your Perl programs, you can use the modules by first 
@@ -121,33 +120,41 @@ setting the INCLUDE path.
 
 4. BUILDING YOUR OWN DATABASE
 -----------------------------
+WARNING: you need a lot (650MB) of free RAM to create the databases
+from raw files. These scripts use lots of physical memory to speed
+up a process that would take days to complete if I used a relational
+database.
+
 The current distribution is bundled with a recent version of the 
 country-code database. This version has been tested by the author of 
 these modules, so is likely to work. I'm sure that some people will
 be interested to know how the database has been constructed, and want
 to build their own versions of the database. This is possible using
-the two scripts provided (bigmemload.pl and sorted_ranges2dbm.pl).
+the two scripts provided in the dbmScripts directory (ipcc_loader.pl 
+and ipcc_maker.pl).
 
-The first script (bigmemload.pl) processes the files found in the 
+The first script (ipcc_loader.pl) processes the files found in the 
 ./rir_data directory, and produces a sorted flat file of non-overlapping
 IP ranges. The files in the ./rir_data directory are recent statistics
-from the four regional internet registries (RIRs). The RIPE statitics
-require unzipping befor running the script.
+from the four regional internet registries (RIRs). The RIPE and ARIN 
+statitics require unzipping before running the script.
 
   ftp://ftp.ripe.net/ripe/dbase/split/ripe.db.inetnum.gz
-  ftp://ftp.arin.net/pub/stats/arin/
+  ftp://ftp.arin.net/other/dump/aup_dump.txt.gz
   ftp://ftp.apnic.net/public/apnic/stats/apnic/
   ftp://ftp.lacnic.net/pub/stats/lacnic/
 
-The output of bigmemload.pl (sorted_ranges.txt) is read by the second
-script (sorted_ranges2dbm.pl) to produce two database files in the 
+The output of ipcc_loader.pl (sorted_ranges.txt) is read by the second
+script (ipcc_maker.pl) to produce two database files in the 
 lib/IP/Country/Fast directory named ip.gif and cc.gif. They have been
 given the .gif suffix to help some FTP clients properly cope with
 their binary contents. 
 
 Eventually, I will properly document the format of the database. Until
-that time, you will need to refer to sorted_ranges2dbm.pl and Fast.pm
+that time, you will need to refer to ipcc_maker.pl and Fast.pm
 to understand the format.
+
+The IP::Authority database can be created using the ipauth* scripts.
 
 
 5. BUG REPORTS
