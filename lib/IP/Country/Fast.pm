@@ -4,7 +4,7 @@ $^W = 1;
 use Socket qw ( inet_aton );
 
 use vars qw ( $VERSION );
-$VERSION = '307.001'; # JUL 2003, version 0.01
+$VERSION = '308.001'; # AUG 2003, version 0.01
 
 my $singleton = undef;
 my $ip_db;
