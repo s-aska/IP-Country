@@ -5,10 +5,11 @@ use Socket;
 use IP::Registry;
 
 use vars qw ( $VERSION );
-$VERSION = '1.65';
+$VERSION = '1.66';
 
 my $singleton = undef;
 my $ip_match = qr/^([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])$/o;
+my $private_ip = qr/^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.)/o; # RFC1918
 my $tld_match = qr/\.([a-zA-Z][a-zA-Z])$/o;
 
 my %cache;
@@ -63,6 +64,8 @@ sub inet_ntocc
     if ($cache && exists $cache{$ip_addr}){
 	return $cache{$ip_addr};
     } else {
+	my $ip_dotted = inet_ntoa($ip_addr);
+	return undef if $ip_dotted =~ $private_ip;
 	if (my $hostname = gethostbyaddr($ip_addr, AF_INET)){
 	    if (my $cc = _get_cc_from_tld($hostname)){
 		$cache{$ip_addr} = $cc if $cache;
@@ -111,15 +114,18 @@ how a typical lookup of a county code might procede for a hostname of the form
 1. If the cache has been enabled, and the country code has previously been found, it is
 immediately returned.
 
-2. If the IP address can be reverse mapped to a domain name, this is done, and that
+2. If the IP address is part of a private address range (e.g. 10.*, 192.168.*, or various
+172. addresses), undef is returned [see RFC1918].
+
+3. If the IP address can be reverse mapped to a domain name, this is done, and that
 name is checked to see whether it ends in a two-letter top-level domain. If so,
 this is changed to upper case and returned.
 
-3. If reverse mapping fails to find a country code, the IP address is sent to
+4. If reverse mapping fails to find a country code, the IP address is sent to
 the IP::Registry module, which maintains a local database of country codes for
 various IP ranges.
 
-4. If this still fails to find a country code, undef is returned.
+5. If this still fails to find a country code, undef is returned.
 
 =back
 

@@ -2,6 +2,11 @@
 <--------1---------2---------3---------4---------5---------6---------7->
 
 
+IP-Country-1.66, 2002.11.08
+---------------------------
+Returns undef for private nets (RFC1918).
+
+
 IP-Country-1.65, 2002.11.08
 ---------------------------
 First attempt at producing a combined interface to the internet address
