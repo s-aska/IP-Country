@@ -5,10 +5,11 @@ use Socket qw ( inet_aton inet_ntoa AF_INET );
 use IP::Country::Fast;
 
 use vars qw ( $VERSION );
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 my $singleton = undef;
-my $ip_match = qr/^([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])$/o;
+
+my $ip_match = qr/^(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])$/o;
 my $private_ip = qr/^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.)/o; # RFC1918
 my $tld_match = qr/\.([a-zA-Z][a-zA-Z])$/o;
 

@@ -1,7 +1,7 @@
 package IP::Country;
 use IP::Country::Fast;
 @IP::Country::ISA = qw ( IP::Country::Fast );
-$IP::Country::VERSION = 1.70;
+$IP::Country::VERSION = 1.99;
 1;
 __END__
 

@@ -1,36 +1,47 @@
 package IP::Country::Fast;
-use strict;
-use Socket;
-use Fcntl;
-BEGIN { @AnyDBM_File::ISA = qw(SDBM_File GDBM_File NDBM_File DB_File ODBM_File ) }
+# use strict;
+# $^W = 1;
+use Fcntl qw ( O_RDONLY );
+use Socket qw ( inet_aton );
+BEGIN { 
+    @AnyDBM_File::ISA = qw(SDBM_File GDBM_File NDBM_File DB_File ODBM_File );
+}
 use AnyDBM_File;
 
 use vars qw ( $VERSION );
-$VERSION = '212.001'; # DEC 2002, version 0.01
+$VERSION = '212.004'; # DEC 2002, version 0.04
 
 my $singleton = undef;
 my %ip_db;
+my @cc;
 my $tld_match = qr/\.([a-zA-Z][a-zA-Z])$/o;
-my $ip_match = qr/^([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])$/o;
+my $ip_match = qr/^(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])$/o;
 
-my %mask;
-my %packed_range;
-
-my @ip_distribution = (31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,
-		       15,14,13,12,11,10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
-
-foreach my $i (@ip_distribution){
-    $mask{$i} = pack('B32', ('1'x(32-$i)).('0'x$i));
-    $packed_range{$i} = pack('C',$i);
-}
-
+my @dton;
+my @dtoc;
 {
+    for (my $i = 0; $i <= 31; $i++){
+	$dton[$i] = pack('N', 2**32 - 2**$i);
+    }
+    for (my $i = 0; $i <= 255; $i++){
+	$dtoc[$i] = substr(pack('N',$i),3,1);
+    }
     (my $module_dir = $INC{'IP/Country/Fast.pm'}) =~ s/\.pm$//;
-    my %database;
-    tie (%database,'AnyDBM_File',"$module_dir/data",O_RDONLY, 0666)
+    my %ip_dbm;
+    tie (%ip_dbm,'AnyDBM_File',"$module_dir/data",O_RDONLY, 0666)
 	or die ("couldn't open registry database: $!");
-    %ip_db = %database;
-    untie %database;
+    %ip_db = %ip_dbm;
+    untie %ip_dbm;
+
+    my %cc_dbm;
+    tie (%cc_dbm,'AnyDBM_File',"$module_dir/cc",O_RDONLY, 0666)
+	or die ("couldn't open country database: $!");
+    foreach my $cc_num (sort keys %cc_dbm){
+	my $cc = $cc_dbm{$cc_num};
+	$cc = undef if ($cc eq '--');
+	$cc[$cc_num] = $cc;
+    }
+    untie %cc_dbm;
 }
 
 sub new ()
@@ -45,25 +56,28 @@ sub new ()
 
 sub inet_atocc ($)
 {
-    my $inet_a = $_[1] || $_[0];
-    unless ($inet_a =~ $ip_match){
-	if ($inet_a =~ $tld_match){
-	    return uc $1;
-	}
+    my $inet_a = $_[1];
+    if ($inet_a =~ $ip_match){
+	return inet_ntocc($dtoc[$1].$dtoc[$2].$dtoc[$3].$dtoc[$4]);
+    } elsif ($inet_a =~ $tld_match){
+	return uc $1;
+    } else {
+	return inet_ntocc(inet_aton($inet_a));
     }
-    return inet_ntocc(inet_aton($inet_a));
 }
 
 sub inet_ntocc ($)
 {
     my $inet_n = $_[1] || $_[0];
-    foreach my $range (@ip_distribution)
+    for (my $i = 31; $i >= 0; $i--)
     {
-	my $masked_ip = $inet_n & $mask{$range};
-	if (exists $ip_db{$packed_range{$range}.$masked_ip}){
-	    return $ip_db{$packed_range{$range}.$masked_ip};
+	my $masked_ip = $inet_n & $dton[$i];
+	my $key = $masked_ip.$dtoc[$i];
+	if (exists $ip_db{$key}){
+	    return $cc[$ip_db{$key}];
 	}
     }
+    return undef;
 }
 
 1;
@@ -88,9 +102,6 @@ This module comes bundled with a database of countries where various IP addresse
 have been assigned. Although the country of assignment will probably be the
 country associated with a large ISP rather than the client herself, this is
 probably good enough for most log analysis applications.
-
-This module will probably be most useful when used after domain lookup has failed,
-or when it has returned a non-useful TLD (.com, .net, etc.).
 
 =head1 CONSTRUCTOR
 

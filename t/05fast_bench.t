@@ -2,7 +2,7 @@ use Test;
 use strict;
 use warnings;
 use IP::Country::Fast;
-# use Time::HiRes qw ( time );
+use Time::HiRes qw ( time );
 BEGIN { plan tests => 1 }
 
 my $iter = 32767;
@@ -20,5 +20,5 @@ for (my $i=1; $i<=$iter; $i++)
 }
 $delta = (time() - $t1) || 1; # avoid zero division
 ok(1);
-print STDERR (" # random find (".int($found * 100/$iter)."%, ".int($iter/$delta)." lookups/sec)\n");
+print STDERR (" # random find (".int(($found * 100)/$iter)."%, ".int($iter/$delta)." lookups/sec)\n");
 
