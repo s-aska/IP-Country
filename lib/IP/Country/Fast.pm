@@ -6,7 +6,7 @@ BEGIN { @AnyDBM_File::ISA = qw(SDBM_File GDBM_File NDBM_File DB_File ODBM_File )
 use AnyDBM_File;
 
 use vars qw ( $VERSION );
-$VERSION = '211.009'; # NOV 2002, version 0.09
+$VERSION = '212.001'; # DEC 2002, version 0.01
 
 my $singleton = undef;
 my %ip_db;

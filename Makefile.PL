@@ -49,7 +49,7 @@ foreach (my $i=0; $i<=31; $i++){
 my %ip;
 
 # and these are our raw files that will combine to form the database
-my @reg_files = ('apnic-2002-11-01', 'arin.20021101', 'ripencc.20021101', 'lacnic.20021105');
+my @reg_files = ('apnic-2002-11-01', 'arin.20021101', 'ripencc.20021201', 'lacnic.20021105');
 foreach my $reg (@reg_files){
     process_reg_file('rir_data/'.$reg);
 }
