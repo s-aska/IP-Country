@@ -1,7 +1,13 @@
-use Test::More tests => 1;
+use Test;
+BEGIN { plan tests => 4 }
 use strict;
 use warnings;
 use IP::Country;
+use IP::Country::Fast;
+use IP::Country::Medium;
+use IP::Country::Slow;
 
-my $reg;
-ok($reg = IP::Country->new(),'object creates ok');
+ok(IP::Country->new());
+ok(IP::Country::Fast->new());
+ok(IP::Country::Medium->new());
+ok(IP::Country::Slow->new());

@@ -1,19 +1,80 @@
-package IP::Country;
-use IP::Country::Fast;
-@IP::Country::ISA = qw ( IP::Country::Fast );
-$IP::Country::VERSION = 1.67;
+package IP::Country::Fast;
+use strict;
+use Socket;
+use Fcntl;
+BEGIN { @AnyDBM_File::ISA = qw(SDBM_File GDBM_File NDBM_File DB_File ODBM_File ) }
+use AnyDBM_File;
+
+use vars qw ( $VERSION );
+$VERSION = '211.008'; # NOV 2002, version 0.08
+
+my $singleton = undef;
+my %ip_db;
+my $tld_match = qr/\.([a-zA-Z][a-zA-Z])$/o;
+my $ip_match = qr/^([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])\.([01]?\d\d|2[0-4]\d|25[0-5])$/o;
+
+my %mask;
+my %packed_range;
+
+my @ip_distribution = (24,28,16,17,18,19,20,21,22,23,13,15,14,12,11,10,9,8);
+
+foreach my $i (@ip_distribution){
+    $mask{$i} = pack('B32', ('1'x(32-$i)).('0'x$i));
+    $packed_range{$i} = pack('C',$i);
+}
+
+{
+    (my $module_dir = $INC{'IP/Country/Fast.pm'}) =~ s/\.pm$//;
+    my %database;
+    tie (%database,'AnyDBM_File',"$module_dir/data",O_RDONLY, 0666)
+	or die ("couldn't open registry database: $!");
+    %ip_db = %database;
+    untie %database;
+}
+
+sub new ()
+{
+    my $caller = shift;
+    unless (defined $singleton){
+        my $class = ref($caller) || $caller;
+	$singleton = bless {}, $class;
+    }
+    return $singleton;
+}
+
+sub inet_atocc
+{
+    my $inet_a = $_[1] || $_[0];
+    unless ($inet_a =~ $ip_match){
+	if ($inet_a =~ $tld_match){
+	    return uc $1;
+	}
+    }
+    return inet_ntocc(inet_aton($inet_a));
+}
+
+sub inet_ntocc
+{
+    my $inet_n = $_[1] || $_[0];
+    foreach my $range (@ip_distribution)
+    {
+	my $masked_ip = $inet_n & $mask{$range};
+	if (exists $ip_db{$masked_ip.$packed_range{$range}}){
+	    return $ip_db{$masked_ip.$packed_range{$range}};
+	}
+    }
+}
+
 1;
 __END__
 
 =head1 NAME
 
-IP::Country - fast lookup of country codes from IP addresses
+IP::Country::Fast - fast lookup of country codes by IP address
 
 =head1 SYNOPSIS
 
   use IP::Country::Fast;
-  use IP::Country::Medium;
-  use IP::Country::Slow;
 
 =head1 DESCRIPTION
 
@@ -85,19 +146,10 @@ Only works with IPv4 addresses. LACNIC ranges have not yet been incorporated.
 
 =head1 SEE ALSO
 
-L<IP::Country::Fast> - recommended for lookups of hostnames which are mostly
-in the dotted-quad form ('213.45.67.89').
+L<IP::Country> - slower, but more accurate. Uses reverse hostname lookups
+before consulting this database.
 
-L<IP::Country::Medium> - recommended for lookups of hostnames which are mostly
-in the domain-name form ('www.yahoo.com'). Caches domain-name lookups.
-
-L<IP::Country::Slow> - NOT RECOMMENDED. Only included for completeness. Prefers
-domain-name lookups to database lookups, which is an expensive strategy of
-no benefit.
-
-L<Geo::IP> - wrapper around the geoip C libraries. Less portable. Not measurably 
-faster than these native Perl modules. Paid subscription required for database
-updates.
+L<Geo::IP> - wrapper around the geoip C libraries. Faster, but less portable.
 
 L<www.apnic.net> - Asia pacific
 

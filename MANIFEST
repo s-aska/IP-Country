@@ -3,6 +3,6 @@ Makefile.PL
 MANIFEST
 README
 lib/IP/Country.pm
-t/00parsable.t
-t/01object_creation.t
-t/02lookup.t
+lib/IP/Country/Fast.pm
+lib/IP/Country/Medium.pm
+lib/IP/Country/Slow.pm

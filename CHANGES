@@ -1,6 +1,27 @@
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
 <--------1---------2---------3---------4---------5---------6---------7->
 
+IP-Country-1.67, 2002.11.13
+---------------------------
+Combined IP::Registry with IP::Country. From tests, previous IP::Country
+has no significant advantage over IP::Registry, and so has been 
+relegated to the IP::Country::Slow class. New class has been introduced
+named IP::Country::Medium, which caches nameserver lookups, but which
+tries to find country from database before performing nameserver lookup.
+
+CHANGES for IP::Registry have been incorporated into this file.
+
+
+IP-Registry-0211.007, 2002.11.12 - vacation release
+--------------------------------
+BUGFIX: weird IP range problem has been fixed by chopping ranges into
+smaller ranges that are exact powers of two. Coverage of random IP 
+addresses has now jumped from around 40% to around 43%.
+
+Reduced size of IP range hash by about 28,000 ranges. Lookup now 
+proceeds acording to distribution of IP addresses within each range.
+The associated performace boost is about 40% :)
+
 
 IP-Country-1.66, 2002.11.08
 ---------------------------
@@ -13,6 +34,49 @@ First attempt at producing a combined interface to the internet address
 registries and domain name system. Seems to work.
 
 Yes, I know the version number is a joke.
+
+
+IP-Registry-0211.006, 2002.11.08
+--------------------------------
+Performance boost. Now looks up about 10,000 IP addresses per second.
+This is on 730MHz Pentium III (Coppermine) with 512MB RAM. I think
+I'll stop optimizing now. w00t!
+Tests switched from Test::More to Test, as people complained about 
+downloading modules.
+
+
+IP-Registry-0211.005, 2002.11.08
+--------------------------------
+If hostname ends in two-letter top-level domain, this is changed to 
+upper case and returned, with no further processing (thx, Rob Knobben,
+Rivals Digital Media).
+
+
+IP-Registry-0211.004, 2002.11.08
+--------------------------------
+Tweak to Makefile.PL that should shorten installation time.
+Documented the weird IP range problem.
+
+
+IP-Registry-0211.003, 2002.11.08
+--------------------------------
+Performance boost. On my machine, was looking up one IP address every
+17 seconds. Now looks up more than 256 IPs per second! Like the old
+programming adage goes - "make it work, then make it fast".
+
+
+IP-Registry-0211.002, 2002.11.07
+--------------------------------
+Now uses AnyDBM_File, which should be a bit more compatible.
+A couple of typos have been fixed in the POD.
+README added.
+
+
+IP-Registry-0211.001, 2002.11.07
+--------------------------------
+First attempt at producing a combined interface to the internet address
+registries. Seems to work.
+
 
 <--------1---------2---------3---------4---------5---------6---------7->
 <-------------- THE SEVENTY-TWO CHARACTER COLUMN-OMETER --------------->
