@@ -184,6 +184,7 @@ of that IP address:
   RI = RIPE (Europe)
   LA = LACNIC (Latin America)
   AP = APNIC (Asia-Pacific)
+  AF = AFRINIC (Africa and Indian Ocean)
   IA = IANA (see RFC3330)
   
 Takes arguments of both the 'rtfm.mit.edu' type and '18.181.0.24'. If the 
@@ -201,6 +202,7 @@ registry that has authority of that IP address:
   RI = RIPE (Europe)
   LA = LACNIC (Latin America)
   AP = APNIC (Asia-Pacific)
+  AF = AFRINIC (Africa and Indian Ocean)
   IA = IANA (see RFC3330)
   
 If the IP address is not contained within the database, returns undef.
@@ -229,16 +231,19 @@ L<http://www.arin.net> - North America
 
 L<http://www.lacnic.net> - Latin America
 
+L<http://www.afrinic.net> - Africa and Indian Ocean
+
 =head1 COPYRIGHT
 
-Copyright (C) 2002,2003 Nigel Wetters Gourlay. All Rights Reserved.
+Copyright (C) 2002-2005 Nigel Wetters Gourlay. All Rights Reserved.
 
 NO WARRANTY. This module is free software; you can redistribute 
 it and/or modify it under the same terms as Perl itself.
 
 Some parts of this software distribution are derived from the APNIC,
-LACNIC, ARIN and RIPE databases (copyright details below). The author of
-this module makes no claims of ownership on those parts.
+LACNIC, ARIN, AFRINIC and RIPE databases (copyright details below).
+I am not a lawyer, so please direct questions about the RIR's 
+licenses to them, not me.
 
 =head1 APNIC conditions of use
 
@@ -281,9 +286,24 @@ or similar activities is explicitly forbidden and may be prosecuted.
 The RIPE NCC requests to be notified of any such activities or 
 suspicions thereof."
 
-=head1 LACNIC database copyright
+=head1 LACNIC acceptable use
 
-Copyright (c) Latin American and Caribbean IP address Regional Registry.
-All rights reserved.
+LACNIC's bulk WHOIS shall only be used for technical research and/or Internet 
+operation purposes, such as designing and developing security software, projects 
+for improving Internet performance and web traffic optimization. It may not be 
+used for publicity, direct marketing, market research or other similar purposes.
+The use of information contained in LACNIC's WHOIS for these purposes is 
+expressly prohibited, and will entitle LACNIC to discontinue the applicant's 
+access to information and initiate the corresponding legal actions. LACNIC 
+requests that it be notified in case of proven or suspected misuse of this 
+information.
+
+Redistribution or retransmission of the information by any means is expressly
+prohibited. Should an Applicant intend to publish all or part of the supplied
+information, said applicant must request LACNIC's prior written consent.
+
+=head1 AFRINIC copyright
+
+Seems to be the RIPE copyright. I'm sure they'll correct this in due course.
 
 =cut

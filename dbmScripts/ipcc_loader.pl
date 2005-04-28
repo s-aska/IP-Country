@@ -66,8 +66,12 @@ insert_raw(unpack('N',inet_aton('224.0.0.0')),2**28,'--',2**28);
 # Reserved for Future Use [RFC1700, page 4]
 insert_raw(unpack('N',inet_aton('240.0.0.0')),2**28,'--',2**28);
 
-read_ripe(); # prefer RIPE to ARIN
-read_reg();
+read_reg('delegated-afrinic-latest');
+read_reg('delegated-lacnic-latest');
+read_reg('delegated-apnic-latest');
+read_ripe();
+read_reg('delegated-arin-latest');
+
 join_neighbours();
 punch_holes();
 optimize();
@@ -354,30 +358,20 @@ sub read_ripe
 
 sub read_reg
 {
-    my $stat_line = qr/^([^\|]+)\|(..)\|ipv4\|([^\|]+)\|(\d+)\|/o;
-    opendir(RIR,$reg_dir) or die("can't open $reg_dir: $!");
-    my @reg;
-    while (defined (my $path = readdir RIR)){
-	$reg[0] = $path if ($path =~ /^ripencc/);
-	$reg[1] = $path if ($path =~ /^lacnic/);
-	$reg[2] = $path if ($path =~ /^apnic/);
-	$reg[3] = $path if ($path =~ /^arin/);
-    }
-    closedir(RIR);
+    my $path = shift;
+    open (REG, "< $reg_dir/$path") || die("can't open $reg_dir/$path: $!");
+    binmode REG, ':crlf';
+    print STDERR "loading data from $path\n";
 
-    foreach my $path(@reg){
-	open (REG, "< $reg_dir/$path") || die("can't open $reg_dir/$path: $!");
-	binmode REG, ':crlf';
-	print STDERR "loading data from $path\n";
-	while (my $line = <REG>){
-	    chomp $line;
-	    next unless $line =~ $stat_line;
-	    my ($auth,$cc,$ip,$size) = ($1,uc $2,$3,$4);
-	    next unless ($ip =~ $ip_match);
-	    my $start = ($1 * 16777216) + ($2 * 65536) + ($3 * 256) + $4;
-	    $cc = 'GB' if ($cc eq 'UK');
-	    insert_raw($start,$size,$cc,$size);
-	}
-	close REG || warn("can't close $reg_dir/$path, but continuing: $!");
+    my $stat_line = qr/^([^\|]+)\|(..)\|ipv4\|([^\|]+)\|(\d+)\|/o;
+    while (my $line = <REG>){
+	chomp $line;
+	next unless $line =~ $stat_line;
+	my ($auth,$cc,$ip,$size) = ($1,uc $2,$3,$4);
+	next unless ($ip =~ $ip_match);
+	my $start = ($1 * 16777216) + ($2 * 65536) + ($3 * 256) + $4;
+	$cc = 'GB' if ($cc eq 'UK');
+	insert_raw($start,$size,$cc,$size);
     }
+    close REG || warn("can't close $reg_dir/$path, but continuing: $!");
 }

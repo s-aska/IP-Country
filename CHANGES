@@ -2,6 +2,21 @@
 <--------1---------2---------3---------4---------5---------6---------7->
 
 
+IP-Country-2.19, 2005.04.27
+---------------------------
+Congratulations to AfriNIC, which has become the fifth Regional
+  Internet Registry, serving Africa and the Indian Ocean.
+Amended LACNIC acceptable use. Contacted LACNIC to check I'm still OK.
+Removed dependency for Geography::Countries (but *not* from ip2cc)
+Removed MaxMind tests, as I have no time to fix.
+Database update:
+  /ripe/dbase/split/ripe.db.inetnum.gz
+  /pub/stats/arin/delegated-arin-latest (Apr 27)
+  /public/apnic/stats/apnic/delegated-apnic-latest (Apr 27)
+  /pub/stats/lacnic/delegated-lacnic-latest (Apr 27)
+  /pub/stats/afrinic/delegated-afrinic-latest (Apr 27)
+
+
 IP-Country-2.18, 2004.10.22
 ---------------------------
 Fixed BUG in testsuite (thx k.heinz-cpan at onlinehome.de):

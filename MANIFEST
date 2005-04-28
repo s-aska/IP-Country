@@ -24,6 +24,4 @@ t/02fast_lookup.t
 t/03medium_lookup.t
 t/04auth_lookup.t
 t/05fast_bench.t
-t/06maxmind.t
-t/codes.t
-META.yml                                Module meta-data (added by MakeMaker)
+META.yml                                 Module meta-data (added by MakeMaker)

@@ -30,9 +30,7 @@ unless ($@) { # Make sure we did find the module.
 WriteMakefile(
 	      NAME          => $PACKAGE,
 	      VERSION_FROM  => "lib/$PACKAGE_FILE.pm", # finds $VERSION
-	      PREREQ_PM     => {
-		  'Geography::Countries' => '1.3'
-		  },
+	      PREREQ_PM     => {},
 	      AUTHOR        => 'Nigel Wetters Gourlay <nwetters@cpan.org>',
 	      ABSTRACT_FROM => "lib/$PACKAGE_FILE.pm",
 	      PL_FILES      => { 'bin/ip2cc.PL' => 'bin/ip2cc' },
