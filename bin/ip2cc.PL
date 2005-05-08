@@ -1,5 +1,6 @@
 use Config;
 use File::Basename qw(basename dirname);
+use lib 'lib';
 use IP::Country;
 my $reg = IP::Country->new();
 

@@ -1,7 +1,7 @@
 package IP::Country;
 use IP::Country::Fast;
 @IP::Country::ISA = qw ( IP::Country::Fast );
-$IP::Country::VERSION = 2.19;
+$IP::Country::VERSION = '2.20';
 1;
 __END__
 
@@ -197,21 +197,9 @@ or similar activities is explicitly forbidden and may be prosecuted.
 The RIPE NCC requests to be notified of any such activities or 
 suspicions thereof."
 
-=head1 LACNIC acceptable use
+=head1 LACNIC database copyright
 
-LACNIC's bulk WHOIS shall only be used for technical research and/or Internet 
-operation purposes, such as designing and developing security software, projects 
-for improving Internet performance and web traffic optimization. It may not be 
-used for publicity, direct marketing, market research or other similar purposes.
-The use of information contained in LACNIC's WHOIS for these purposes is 
-expressly prohibited, and will entitle LACNIC to discontinue the applicant's 
-access to information and initiate the corresponding legal actions. LACNIC 
-requests that it be notified in case of proven or suspected misuse of this 
-information.
-
-Redistribution or retransmission of the information by any means is expressly
-prohibited. Should an Applicant intend to publish all or part of the supplied
-information, said applicant must request LACNIC's prior written consent.
+Copyright (c) Latin American and Caribbean IP address Regional Registry. All rights reserved.
 
 =head1 AFRINIC copyright
 

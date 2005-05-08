@@ -2,6 +2,34 @@
 <--------1---------2---------3---------4---------5---------6---------7->
 
 
+IP-Country-2.20, 2005.05.08
+---------------------------
+BUGFIX: doesn't install cleanly with new MakeMaker (thx Mike Castle, 
+  MSCHWERN, Saul Jaffe):
+  http://www.nntp.perl.org/group/perl.makemaker/2271
+  rt.cpan.org ID #12704
+Reverted LACNIC license after clarification:
+> Hello Sir.
+>
+> If we are not wrong, the data you use in our module is the we publish
+> in daily base in our ftp site, where it is possible to identify,
+> among other things, the country of an allocated resource.
+>
+> More specifically the:
+> ftp://ftp.lacnic.net/pub/stats/lacnic/delegated-lacnic-latest
+>
+> There is no problem in redistributing this information.
+>
+> We actually have a agreement to grant access to a more detailed set of
+> information (almost the same info available via whois interface),
+> which requires an special permission and could not be
+> redistribute. But this is not the case of the above mentioned ftp file.
+>
+> Regards,
+> --
+> Hostmaster :: LACNIC Registration Group
+
+
 IP-Country-2.19, 2005.04.27
 ---------------------------
 Congratulations to AfriNIC, which has become the fifth Regional
