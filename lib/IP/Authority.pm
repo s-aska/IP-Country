@@ -1,10 +1,10 @@
 package IP::Authority;
 use strict;
-$^W = 1;
+use warnings;
 use Socket qw ( inet_aton );
 
 use vars qw ( $VERSION );
-$VERSION = '309.001'; # SEP 2003, version 0.01
+$VERSION = '604.001'; # APR 2006, version 0.01
 
 my $singleton = undef;
 my $ip_db;

@@ -1,10 +1,10 @@
 package IP::Country::Fast;
 use strict;
-$^W = 1;
+use warnings;
 use Socket qw ( inet_aton );
 
 use vars qw ( $VERSION );
-$VERSION = '309.002'; # SEP 2003, version 0.02
+$VERSION = '604.001'; # APR 2006, version 001
 
 my $singleton = undef;
 my $ip_db;

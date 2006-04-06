@@ -1,12 +1,12 @@
 package IP::Country::MaxMind;
 use strict;
+use warnings;
 use Socket qw ( inet_ntoa );
-$^W=1;
 
 use vars qw ( @ISA $VERSION @EXPORT );
 require Exporter;
 
-$VERSION = 0.9;
+$VERSION = 1.0;
 
 @ISA = qw( Exporter );
 @EXPORT = qw( GEOIP_STANDARD GEOIP_MEMORY_CACHE GEOIP_CHECK_CACHE );
@@ -76,7 +76,7 @@ __END__
 
 =head1 NAME
 
-Geo::IP - Look up country by IP Address
+IP::Country::MaxMind - Look up country by IP Address
 
 =head1 SYNOPSIS
 
