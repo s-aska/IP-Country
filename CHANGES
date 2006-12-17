@@ -2,6 +2,16 @@
 <--------1---------2---------3---------4---------5---------6---------7->
 
 
+IP-Country-2.22, 2006.12.17
+---------------------------
+Database update:
+  Dec 17 01:11 ripe.db.inetnum.gz
+  Dec 17 02:50 delegated-afrinic-latest
+  Dec 16 21:17 delegated-apnic-latest
+  Dec 17 09:03 delegated-arin-latest
+  Dec 17 02:50 delegated-lacnic-latest
+
+
 IP-Country-2.21, 2006.04.06
 ---------------------------
 Thanks to jhe and SAPER for bug reports.
