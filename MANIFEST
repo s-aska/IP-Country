@@ -4,7 +4,7 @@ MANIFEST
 Makefile.PL
 README
 bin/ip2cc.PL
-dbmScripts/getFiles.pl
+dbmScripts/whois_filenames
 dbmScripts/ipauth_loader.pl
 dbmScripts/ipauth_maker.pl
 dbmScripts/ipcc_loader.pl

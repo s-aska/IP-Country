@@ -2,6 +2,19 @@
 <--------1---------2---------3---------4---------5---------6---------7->
 
 
+IP-Country-2.23, 2007.02.02
+---------------------------
+Thanks to mropp for bug report.
+BUGFIX: http://rt.cpan.org/Public/Bug/Display.html?id=21036
+  lower case country codes when using IP::Country::Medium
+Database update:
+  Feb  2 02:43 delegated-afrinic-latest
+  Feb  1 21:17 delegated-apnic-latest
+  Feb  2 09:03 delegated-arin-latest
+  Feb  2 02:50 delegated-lacnic-latest
+  Feb  2 04:06 ripe.db.inetnum
+
+
 IP-Country-2.22, 2006.12.17
 ---------------------------
 Database update:

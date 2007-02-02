@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                IP-Country
-version:             2.22
+version:             2.23
 abstract:            fast lookup of country codes from IP addresses
 license:             ~
 generated_by:        ExtUtils::MakeMaker version 6.31

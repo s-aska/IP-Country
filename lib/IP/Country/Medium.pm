@@ -5,7 +5,7 @@ use Socket qw ( inet_aton inet_ntoa AF_INET );
 use IP::Country::Fast;
 
 use vars qw ( $VERSION );
-$VERSION = '0.04';
+$VERSION = '0.05';
 
 my $singleton = undef;
 
@@ -54,7 +54,7 @@ sub inet_atocc
 	    return $cache{$hostname};
 	} else {
 	    if ($hostname =~ $tld_match){
-		return $1;
+		return uc($1);
 	    } else {
 		my $cc =  IP::Country::Fast::inet_atocc($hostname);
 		$cache{$hostname} = $cc if $cache;
@@ -76,7 +76,7 @@ sub inet_ntocc
 	if (my $cc = IP::Country::Fast::inet_ntocc($ip_addr)){
 	    return $cc;
 	} elsif (gethostbyaddr($ip_addr, AF_INET) =~ $tld_match){
-	    my $cc = $1;
+	    my $cc = uc($1);
 	    $cache{$ip_addr} = $cc if $cache;
 	    return $cc;
 	} else {
@@ -84,17 +84,6 @@ sub inet_ntocc
     }
     return undef;
 }
-
-sub _get_cc_from_tld ($)
-{
-    my $hostname = shift;
-    if ($hostname =~ $tld_match){
-	return uc $1;
-    } else {
-	return undef;
-    }
-}
-
 
 1;
 __END__

@@ -19,7 +19,7 @@ for (my $i=0; $i<=31; $i++){
 }
 
 my $ip_match = qr/^(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])$/o;
-my $reg_dir = '../rir_data';
+my $reg_dir = './';
 
 # 'SPECIAL' IP RANGES (all from RFC3330)
 # a double asterix '**' indicates a local (non-public) IP ranges,
