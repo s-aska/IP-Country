@@ -2,6 +2,16 @@
 <--------1---------2---------3---------4---------5---------6---------7->
 
 
+IP-Country-2.24, 2008.03.04
+---------------------------
+Database update:
+  Mar  3 23:19 delegated-afrinic-latest
+  Mar  3 18:06 delegated-apnic-latest
+  Mar  4 06:02 delegated-arin-latest
+  Mar  4 00:50 delegated-lacnic-latest
+  Mar  4 01:38 ripe.db.inetnum
+
+
 IP-Country-2.23, 2007.02.02
 ---------------------------
 Thanks to mropp for bug report.

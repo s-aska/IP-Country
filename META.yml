@@ -1,13 +1,13 @@
 --- #YAML:1.0
 name:                IP-Country
-version:             2.23
+version:             2.24
 abstract:            fast lookup of country codes from IP addresses
 license:             ~
-generated_by:        ExtUtils::MakeMaker version 6.31
+author:              
+    - Nigel Wetters Gourlay <nwetters@cpan.org>
+generated_by:        ExtUtils::MakeMaker version 6.38
 distribution_type:   module
 requires:     
 meta-spec:
-    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
-    version: 1.2
-author:
-    - Nigel Wetters Gourlay <nwetters@cpan.org>
+    url:     http://module-build.sourceforge.net/META-spec-v1.3.html
+    version: 1.3
