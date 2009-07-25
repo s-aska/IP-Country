@@ -1,10 +1,22 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         IP-Country
-version:      2.26
-version_from: lib/IP/Country.pm
-installdirs:  site
+--- #YAML:1.0
+name:               IP-Country
+version:            2.27
+abstract:           fast lookup of country codes from IP addresses
+author:
+    - Nigel Wetters Gourlay <nwetters@cpan.org>
+license:            unknown
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
 requires:
-
-distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.30
+    Geography::Countries:  ~
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.50
+meta-spec:
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4
